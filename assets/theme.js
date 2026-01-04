@@ -35,7 +35,7 @@ var CopyButton = class extends HTMLElement {
   }
 };
 _CopyButton_instances = new WeakSet();
-copyToClipboard_fn = async function() {
+copyToClipboard_fn = async function () {
   if (!navigator.clipboard) {
     return;
   }
@@ -65,7 +65,7 @@ var ShareButton = class extends HTMLElement {
   }
 };
 _ShareButton_instances = new WeakSet();
-showSystemShare_fn = async function() {
+showSystemShare_fn = async function () {
   try {
     await navigator.share({
       title: this.hasAttribute("share-title") ? this.getAttribute("share-title") : document.title,
@@ -95,13 +95,13 @@ var MarqueeText = class extends HTMLElement {
 };
 _currentAnimation = new WeakMap();
 _MarqueeText_instances = new WeakSet();
-direction_get = function() {
+direction_get = function () {
   return this.getAttribute("direction") === "right" ? 1 : -1;
 };
-scroller_get = function() {
+scroller_get = function () {
   return this.shadowRoot.querySelector('[part="scroller"]');
 };
-initialize_fn = function() {
+initialize_fn = function () {
   if (this.children[0]?.childElementCount === 0) {
     return;
   }
@@ -163,15 +163,15 @@ _firstClientX = new WeakMap();
 _tracking = new WeakMap();
 _start = new WeakMap();
 _GestureArea_instances = new WeakSet();
-touchStart_fn = function(event) {
+touchStart_fn = function (event) {
   __privateSet(this, _firstClientX, event.touches[0].clientX);
 };
-preventTouch_fn = function(event) {
+preventTouch_fn = function (event) {
   if (Math.abs(event.touches[0].clientX - __privateGet(this, _firstClientX)) > 10) {
     event.preventDefault();
   }
 };
-gestureStart_fn = function(event) {
+gestureStart_fn = function (event) {
   __privateSet(this, _tracking, true);
   __privateSet(this, _start, {
     time: (/* @__PURE__ */ new Date()).getTime(),
@@ -179,12 +179,12 @@ gestureStart_fn = function(event) {
     y: event.clientY
   });
 };
-gestureMove_fn = function(event) {
+gestureMove_fn = function (event) {
   if (__privateGet(this, _tracking)) {
     event.preventDefault();
   }
 };
-gestureEnd_fn = function(event) {
+gestureEnd_fn = function (event) {
   if (!__privateGet(this, _tracking)) {
     return;
   }
@@ -233,7 +233,7 @@ var CountrySelector = class extends HTMLElement {
 };
 _onCountryChangedListener = new WeakMap();
 _CountrySelector_instances = new WeakSet();
-onCountryChanged_fn = function() {
+onCountryChanged_fn = function () {
   const option = this.countryElement.options[this.countryElement.selectedIndex], provinces = JSON.parse(option.getAttribute("data-provinces"));
   this.provinceElement.parentElement.hidden = provinces.length === 0;
   if (provinces.length === 0) {
@@ -463,7 +463,7 @@ _state = new WeakMap();
 _onVisibilityChangeListener = new WeakMap();
 _mustResumeOnVisibility = new WeakMap();
 _Player_instances = new WeakSet();
-onVisibilityChange_fn = function() {
+onVisibilityChange_fn = function () {
   if (document.visibilityState === "hidden") {
     __privateSet(this, _mustResumeOnVisibility, __privateGet(this, _state) === "started");
     this.pause();
@@ -508,7 +508,7 @@ var HeightObserver = class extends HTMLElement {
 };
 _resizeObserver = new WeakMap();
 _HeightObserver_instances = new WeakSet();
-updateCustomProperties_fn = function(entries) {
+updateCustomProperties_fn = function (entries) {
   entries.forEach((entry) => {
     if (entry.target === this) {
       const height = entry.borderBoxSize ? entry.borderBoxSize.length > 0 ? entry.borderBoxSize[0].blockSize : entry.borderBoxSize.blockSize : entry.target.clientHeight;
@@ -532,10 +532,10 @@ var LoadingBar = class extends HTMLElement {
   }
 };
 _LoadingBar_instances = new WeakSet();
-onLoadingStart_fn = function() {
+onLoadingStart_fn = function () {
   animate2(this, { opacity: [0, 1], transform: ["scaleX(0)", "scaleX(0.4)"] }, { duration: 0.25 });
 };
-onLoadingEnd_fn = async function() {
+onLoadingEnd_fn = async function () {
   await animate2(this, { transform: [null, "scaleX(1)"] }, { duration: 0.25 }).finished;
   animate2(this, { opacity: 0 }, { duration: 0.25 });
 };
@@ -580,14 +580,14 @@ _lastKnownY = new WeakMap();
 _currentTop = new WeakMap();
 _position = new WeakMap();
 _SafeSticky_instances = new WeakSet();
-recalculateStyles_fn = function() {
+recalculateStyles_fn = function () {
   this.style.removeProperty("top");
   const computedStyles = getComputedStyle(this);
   __privateSet(this, _initialTop, parseInt(computedStyles.top));
   __privateSet(this, _position, computedStyles.position);
   __privateMethod(this, _SafeSticky_instances, checkPosition_fn).call(this);
 };
-checkPosition_fn = function() {
+checkPosition_fn = function () {
   if (__privateGet(this, _position) !== "sticky") {
     return this.style.removeProperty("top");
   }
@@ -654,7 +654,7 @@ var CarouselNavigation = class extends HTMLElement {
 _abortController = new WeakMap();
 _allItems = new WeakMap();
 _CarouselNavigation_instances = new WeakSet();
-onCarouselFilter_fn = function(event) {
+onCarouselFilter_fn = function (event) {
   __privateGet(this, _allItems).forEach((item, index) => {
     item.toggleAttribute("hidden", (event.detail.filteredIndexes || []).includes(index));
   });
@@ -864,7 +864,7 @@ _EffectCarousel_instances = new WeakSet();
  * PRIVATE
  * -------------------------------------------------------------------------------------------------------------------
  */
-setupListeners_fn = function() {
+setupListeners_fn = function () {
   if (this.hasAttribute("disabled-on")) {
     mediaQueryListener(this.getAttribute("disabled-on"), (event) => {
       if (event.matches) {
@@ -912,7 +912,7 @@ setupListeners_fn = function() {
  * OTHER
  * -------------------------------------------------------------------------------------------------------------------
  */
-onKeyboardNavigation_fn = function(event) {
+onKeyboardNavigation_fn = function (event) {
   if (event.target !== this) {
     return;
   }
@@ -922,7 +922,7 @@ onKeyboardNavigation_fn = function(event) {
     this.next();
   }
 };
-preloadImages_fn = function() {
+preloadImages_fn = function () {
   const previousSlide = this.cells[(this.selectedIndex - 1 + this.cells.length) % this.cells.length], nextSlide = this.cells[(this.selectedIndex + 1 + this.cells.length) % this.cells.length];
   [previousSlide, this.selectedCell, nextSlide].forEach((item) => {
     Array.from(item.querySelectorAll('img[loading="lazy"]')).forEach((img) => img.removeAttribute("loading"));
@@ -1073,7 +1073,7 @@ _ScrollCarousel_instances = new WeakSet();
 /**
  * Setup all the listeners needed for the carousel to work properly
  */
-setupListeners_fn2 = function() {
+setupListeners_fn2 = function () {
   if (this.allCells.length > 1) {
     this.addEventListener("carousel:change", __privateMethod(this, _ScrollCarousel_instances, preloadImages_fn2));
     this.addEventListener("scroll", throttle(__privateMethod(this, _ScrollCarousel_instances, onScroll_fn).bind(this)));
@@ -1099,7 +1099,7 @@ setupListeners_fn2 = function() {
     }
   }
 };
-updateTargetIndex_fn = function(newValue) {
+updateTargetIndex_fn = function (newValue) {
   if (newValue === __privateGet(this, _targetIndex2) && !__privateGet(this, _forceChangeEvent)) {
     return;
   }
@@ -1112,7 +1112,7 @@ updateTargetIndex_fn = function(newValue) {
  * SCROLL MANAGEMENT
  * -------------------------------------------------------------------------------------------------------------------
  */
-onScroll_fn = function() {
+onScroll_fn = function () {
   const scrollEdgeThreshold = 100, normalizedScrollLeft = Math.round(Math.abs(this.scrollLeft));
   if (normalizedScrollLeft < scrollEdgeThreshold && __privateGet(this, _dispatchableScrollEvents)["nearingStart"]) {
     this.dispatchEvent(new CustomEvent("scroll:edge-nearing", { detail: { position: "start" } }));
@@ -1145,7 +1145,7 @@ onScroll_fn = function() {
   }
   __privateMethod(this, _ScrollCarousel_instances, updateTargetIndex_fn).call(this, __privateMethod(this, _ScrollCarousel_instances, calculateClosestIndexToAlignment_fn).call(this));
 };
-onScrollEnd_fn = function() {
+onScrollEnd_fn = function () {
   __privateSet(this, _hasPendingProgrammaticScroll, false);
   if (!__privateGet(this, _isDragging)) {
     this.style.removeProperty("scroll-snap-type");
@@ -1156,7 +1156,7 @@ onScrollEnd_fn = function() {
 /**
  * Calculate the amount to scroll to align the cell with the "cell-align" rule
  */
-calculateLeftScroll_fn = function(cell) {
+calculateLeftScroll_fn = function (cell) {
   let scrollLeft;
   switch (this.cellAlign) {
     case "start":
@@ -1171,7 +1171,7 @@ calculateLeftScroll_fn = function(cell) {
   }
   return document.dir === "ltr" ? Math.min(Math.max(scrollLeft, 0), this.scrollWidth - this.clientWidth) : Math.min(Math.max(scrollLeft, this.clientWidth - this.scrollWidth), 0);
 };
-calculateClosestIndexToAlignment_fn = function() {
+calculateClosestIndexToAlignment_fn = function () {
   let cellAlign = this.cellAlign, offsetAccumulators, targetPoint;
   if (cellAlign === "center") {
     offsetAccumulators = this.cells.map((cell) => Math.round(cell.offsetLeft + cell.clientWidth / 2));
@@ -1190,7 +1190,7 @@ calculateClosestIndexToAlignment_fn = function() {
  * DRAG FEATURE
  * -------------------------------------------------------------------------------------------------------------------
  */
-onMouseDown_fn = function(event) {
+onMouseDown_fn = function (event) {
   __privateSet(this, _dragPosition, {
     // The current scroll
     left: this.scrollLeft,
@@ -1205,18 +1205,18 @@ onMouseDown_fn = function(event) {
   this.addEventListener("click", __privateGet(this, _onMouseClickListener), { once: true });
   document.addEventListener("mouseup", __privateGet(this, _onMouseUpListener));
 };
-onMouseMove_fn = function(event) {
+onMouseMove_fn = function (event) {
   event.preventDefault();
   const [dx, dy] = [event.clientX - __privateGet(this, _dragPosition).x, event.clientY - __privateGet(this, _dragPosition).y];
   this.scrollTop = __privateGet(this, _dragPosition).top - dy;
   this.scrollLeft = __privateGet(this, _dragPosition).left - dx;
 };
-onMouseClick_fn = function(event) {
+onMouseClick_fn = function (event) {
   if (event.clientX - __privateGet(this, _dragPosition).x !== 0) {
     event.preventDefault();
   }
 };
-onMouseUp_fn = function(event) {
+onMouseUp_fn = function (event) {
   __privateSet(this, _isDragging, false);
   if (event.clientX - __privateGet(this, _dragPosition).x === 0) {
     this.style.removeProperty("scroll-snap-type");
@@ -1231,7 +1231,7 @@ onMouseUp_fn = function(event) {
  * OTHER
  * -------------------------------------------------------------------------------------------------------------------
  */
-onResize_fn = function() {
+onResize_fn = function () {
   if (this.selectedIndex !== __privateMethod(this, _ScrollCarousel_instances, calculateClosestIndexToAlignment_fn).call(this)) {
     this.select(this.selectedIndex, { instant: true });
   }
@@ -1240,10 +1240,10 @@ onResize_fn = function() {
   }
   this.classList.toggle("is-scrollable", this.scrollWidth > this.clientWidth);
 };
-onMutate_fn = function() {
+onMutate_fn = function () {
   __privateSet(this, _forceChangeEvent, true);
 };
-adaptHeight_fn = function() {
+adaptHeight_fn = function () {
   if (this.clientHeight === this.selectedCell.clientHeight) {
     return;
   }
@@ -1252,7 +1252,7 @@ adaptHeight_fn = function() {
     this.style.maxHeight = `${this.selectedCell.clientHeight}px`;
   }
 };
-preloadImages_fn2 = function() {
+preloadImages_fn2 = function () {
   requestAnimationFrame(() => {
     const previousSlide = this.cells[Math.max(this.selectedIndex - 1, 0)], nextSlide = this.cells[Math.min(this.selectedIndex + 1, this.cells.length - 1)];
     [previousSlide, this.selectedCell, nextSlide].filter((item) => item !== null).forEach((item) => {
@@ -1307,7 +1307,7 @@ var CartCount = class extends HTMLElement {
 };
 _abortController2 = new WeakMap();
 _CartCount_instances = new WeakSet();
-updateFromServer_fn = async function() {
+updateFromServer_fn = async function () {
   this.itemCount = (await fetchCart)["item_count"];
 };
 if (!window.customElements.get("cart-count")) {
@@ -1334,7 +1334,7 @@ var CartDot = class extends HTMLElement {
 };
 _abortController3 = new WeakMap();
 _CartDot_instances = new WeakSet();
-updateFromServer_fn2 = async function() {
+updateFromServer_fn2 = async function () {
   this.classList.toggle("is-visible", (await fetchCart)["item_count"] > 0);
 };
 if (!window.customElements.get("cart-dot")) {
@@ -1351,7 +1351,7 @@ var CartNote = class extends HTMLElement {
   }
 };
 _CartNote_instances = new WeakSet();
-onNoteChanged_fn = function(event) {
+onNoteChanged_fn = function (event) {
   if (event.target.getAttribute("name") !== "note") {
     return;
   }
@@ -1402,7 +1402,7 @@ _onCartChangedListener = new WeakMap();
 _currencyFormatter = new WeakMap();
 _threshold = new WeakMap();
 _FreeShippingBar_instances = new WeakSet();
-updateMessage_fn = function() {
+updateMessage_fn = function () {
   const messageElement = this.querySelector("span");
   if (this.totalPrice >= __privateGet(this, _threshold)) {
     messageElement.innerHTML = this.getAttribute("reached-message");
@@ -1411,7 +1411,7 @@ updateMessage_fn = function() {
     messageElement.innerHTML = this.getAttribute("unreached-message").replace(new RegExp("({{.*}})", "g"), replacement);
   }
 };
-onCartChanged_fn = function(event) {
+onCartChanged_fn = function (event) {
   const priceForItems = event.detail["cart"]["items"].filter((item) => item["requires_shipping"]).reduce((sum, item) => sum + item["final_line_price"], 0), cartDiscount = event.detail["cart"]["cart_level_discount_applications"].reduce((sum, discountAllocation) => sum + discountAllocation["total_allocated_amount"], 0);
   this.totalPrice = priceForItems - cartDiscount;
 };
@@ -1433,15 +1433,15 @@ var LineItemQuantity = class extends HTMLElement {
 };
 _delegate = new WeakMap();
 _LineItemQuantity_instances = new WeakSet();
-onQuantityChanged_fn = function(event, target) {
+onQuantityChanged_fn = function (event, target) {
   __privateMethod(this, _LineItemQuantity_instances, changeLineItemQuantity_fn).call(this, target.getAttribute("data-line-key"), parseInt(target.value));
 };
-onChangeLinkClicked_fn = function(event, target) {
+onChangeLinkClicked_fn = function (event, target) {
   event.preventDefault();
   const url = new URL(target.href);
   __privateMethod(this, _LineItemQuantity_instances, changeLineItemQuantity_fn).call(this, url.searchParams.get("id"), parseInt(url.searchParams.get("quantity")));
 };
-changeLineItemQuantity_fn = async function(lineKey, targetQuantity) {
+changeLineItemQuantity_fn = async function (lineKey, targetQuantity) {
   document.documentElement.dispatchEvent(new CustomEvent("theme:loading:start", { bubbles: true }));
   const lineItem = this.closest("line-item");
   lineItem?.dispatchEvent(new CustomEvent("line-item:will-change", { bubbles: true, detail: { targetQuantity } }));
@@ -1514,7 +1514,7 @@ var ShippingEstimator = class extends HTMLElement {
 };
 _estimateShippingListener = new WeakMap();
 _ShippingEstimator_instances = new WeakSet();
-estimateShipping_fn = async function(event) {
+estimateShipping_fn = async function (event) {
   event.preventDefault();
   const zip = this.querySelector('[name="address[zip]"]').value, country = this.querySelector('[name="address[country]"]').value, province = this.querySelector('[name="address[province]"]').value;
   this.submitButton.setAttribute("aria-busy", "true");
@@ -1531,7 +1531,7 @@ estimateShipping_fn = async function(event) {
   this.resultsElement.hidden = false;
   this.submitButton.removeAttribute("aria-busy");
 };
-getAsyncShippingRates_fn = async function(zip, country, province) {
+getAsyncShippingRates_fn = async function (zip, country, province) {
   const response = await fetch(`${Shopify.routes.root}cart/async_shipping_rates.json?shipping_address[zip]=${zip}&shipping_address[country]=${country}&shipping_address[province]=${province}`);
   const responseAsText = await response.text();
   if (responseAsText === "null") {
@@ -1540,7 +1540,7 @@ getAsyncShippingRates_fn = async function(zip, country, province) {
     return JSON.parse(responseAsText)["shipping_rates"];
   }
 };
-formatShippingRates_fn = function(shippingRates) {
+formatShippingRates_fn = function (shippingRates) {
   let formattedShippingRates = shippingRates.map((shippingRate) => {
     return `<li>${shippingRate["presentment_name"]}: ${shippingRate["currency"]} ${shippingRate["price"]}</li>`;
   });
@@ -1551,7 +1551,7 @@ formatShippingRates_fn = function(shippingRates) {
       </div>
     `;
 };
-formatError_fn = function(errors) {
+formatError_fn = function (errors) {
   let formattedShippingRates = Object.keys(errors).map((errorKey) => {
     return `<li>${errors[errorKey]}</li>`;
   }).join("");
@@ -1579,10 +1579,10 @@ var FacetsForm = class extends HTMLElement {
 };
 _isDirty = new WeakMap();
 _FacetsForm_instances = new WeakSet();
-form_get = function() {
+form_get = function () {
   return this.querySelector("form");
 };
-buildUrl_fn = function() {
+buildUrl_fn = function () {
   const searchParams = new URLSearchParams(new FormData(__privateGet(this, _FacetsForm_instances, form_get))), url = new URL(__privateGet(this, _FacetsForm_instances, form_get).action);
   url.search = "";
   searchParams.forEach((value, key) => url.searchParams.append(key, value));
@@ -1594,7 +1594,7 @@ buildUrl_fn = function() {
   url.searchParams.set("section_id", this.getAttribute("section-id"));
   return url;
 };
-onFormChanged_fn = function() {
+onFormChanged_fn = function () {
   __privateSet(this, _isDirty, true);
   if (this.hasAttribute("update-on-change")) {
     if (HTMLFormElement.prototype.requestSubmit) {
@@ -1606,7 +1606,7 @@ onFormChanged_fn = function() {
     cachedFetch(__privateMethod(this, _FacetsForm_instances, buildUrl_fn).call(this).toString());
   }
 };
-onFormSubmitted_fn = function(event) {
+onFormSubmitted_fn = function (event) {
   event.preventDefault();
   if (!__privateGet(this, _isDirty)) {
     return;
@@ -1674,8 +1674,10 @@ var DialogElement = class extends HTMLElement {
   disconnectedCallback() {
     __privateGet(this, _delegate2).off();
     this.abortController.abort();
-    this.focusTrap?.deactivate({ onDeactivate: () => {
-    } });
+    this.focusTrap?.deactivate({
+      onDeactivate: () => {
+      }
+    });
     if (__privateGet(this, _isLocked)) {
       __privateSet(this, _isLocked, false);
       document.documentElement.classList.toggle("lock", --lockLayerCount > 0);
@@ -1888,7 +1890,7 @@ _DialogElement_instances = new WeakSet();
  * If "clickOutsideDeactivates" is true, then this listener will be called on every click outside the element. This
  * allows function separates touch and non-touch events
  */
-allowOutsideClick_fn = function(event) {
+allowOutsideClick_fn = function (event) {
   if ("TouchEvent" in window && event instanceof TouchEvent) {
     return __privateMethod(this, _DialogElement_instances, allowOutsideClickTouch_fn).call(this, event);
   } else {
@@ -1899,7 +1901,7 @@ allowOutsideClick_fn = function(event) {
  * If "clickOutsideDeactivates" is true, this listener will be called on every touch click outside the trapped
  * element. By default, this will allow any click outside to cause the dialog to close
  */
-allowOutsideClickTouch_fn = function(event) {
+allowOutsideClickTouch_fn = function (event) {
   event.target.addEventListener("touchend", (subEvent) => {
     const endTarget = document.elementFromPoint(subEvent.changedTouches.item(0).clientX, subEvent.changedTouches.item(0).clientY);
     if (this.hideForOutsideClickTarget(endTarget)) {
@@ -1912,7 +1914,7 @@ allowOutsideClickTouch_fn = function(event) {
  * If "clickOutsideDeactivates" is true, this listener will be called on every mouse click outside the trapped
  * element. By default, this will allow any click outside to cause the dialog to close.
  */
-allowOutsideClickMouse_fn = function(event) {
+allowOutsideClickMouse_fn = function (event) {
   if (event.type !== "click") {
     return false;
   }
@@ -1932,14 +1934,14 @@ allowOutsideClickMouse_fn = function(event) {
  * This function is called whenever a toggle (an element controlling this dialog) is called. This simply open
  * the dialog if closed, or close it if open
  */
-onToggleClicked_fn = function(event) {
+onToggleClicked_fn = function (event) {
   event?.preventDefault();
   this.open ? this.hide() : this.show();
 };
 /**
  * Hide the slots that do not have any children
  */
-updateSlotVisibility_fn = function(slot) {
+updateSlotVisibility_fn = function (slot) {
   if (!["header", "footer"].includes(slot.name)) {
     return;
   }
@@ -2105,7 +2107,7 @@ var FacetsDrawer = class extends Drawer {
   }
 };
 _FacetsDrawer_instances = new WeakSet();
-updateFacets_fn = function() {
+updateFacets_fn = function () {
   const form = this.querySelector("facets-form form");
   if (HTMLFormElement.prototype.requestSubmit) {
     form?.requestSubmit();
@@ -2127,7 +2129,7 @@ var FacetLink = class extends HTMLElement {
   }
 };
 _FacetLink_instances = new WeakSet();
-onFacetUpdate_fn = function(event) {
+onFacetUpdate_fn = function (event) {
   event.preventDefault();
   const sectionId = extractSectionId(event.target), url = new URL(this.firstElementChild.href);
   url.searchParams.set("section_id", sectionId);
@@ -2152,7 +2154,7 @@ var FacetsSortPopover = class extends Popover {
   }
 };
 _FacetsSortPopover_instances = new WeakSet();
-onSortChange_fn = function(event) {
+onSortChange_fn = function (event) {
   const url = new URL(window.location.href);
   url.searchParams.set("sort_by", event.detail.value);
   url.searchParams.delete("page");
@@ -2251,7 +2253,7 @@ var ProgressBar = class extends HTMLElement {
 };
 _allowUpdatingProgress = new WeakMap();
 _ProgressBar_instances = new WeakSet();
-calculateProgressBar_fn = function() {
+calculateProgressBar_fn = function () {
   this.style.setProperty("--progress", `${this.progress}`);
 };
 if (!window.customElements.get("progress-bar")) {
@@ -2348,7 +2350,7 @@ _decreaseButton = new WeakMap();
 _increaseButton = new WeakMap();
 _inputElement = new WeakMap();
 _QuantitySelector_instances = new WeakSet();
-onDecreaseQuantity_fn = function() {
+onDecreaseQuantity_fn = function () {
   if (this.hasAttribute("allow-reset-to-zero") && __privateGet(this, _inputElement).value === __privateGet(this, _inputElement).min) {
     __privateGet(this, _inputElement).value = 0;
   } else {
@@ -2357,12 +2359,12 @@ onDecreaseQuantity_fn = function() {
   __privateGet(this, _inputElement).dispatchEvent(new Event("change", { bubbles: true }));
   __privateMethod(this, _QuantitySelector_instances, updateUI_fn).call(this);
 };
-onIncreaseQuantity_fn = function() {
+onIncreaseQuantity_fn = function () {
   __privateGet(this, _inputElement).stepUp();
   __privateGet(this, _inputElement).dispatchEvent(new Event("change", { bubbles: true }));
   __privateMethod(this, _QuantitySelector_instances, updateUI_fn).call(this);
 };
-updateUI_fn = function() {
+updateUI_fn = function () {
   if (__privateGet(this, _decreaseButton)) {
     if (this.hasAttribute("allow-reset-to-zero") && __privateGet(this, _inputElement).value === __privateGet(this, _inputElement).min) {
       __privateGet(this, _decreaseButton).disabled = false;
@@ -2391,16 +2393,16 @@ var QuantityInput = class extends HTMLElement {
   }
 };
 _QuantityInput_instances = new WeakSet();
-inputElement_get = function() {
+inputElement_get = function () {
   return this.firstElementChild;
 };
-onValueInput_fn = function() {
+onValueInput_fn = function () {
   if (__privateGet(this, _QuantityInput_instances, inputElement_get).value === "") {
     __privateGet(this, _QuantityInput_instances, inputElement_get).value = __privateGet(this, _QuantityInput_instances, inputElement_get).min || 1;
   }
   this.style.setProperty("--quantity-selector-character-count", `${__privateGet(this, _QuantityInput_instances, inputElement_get).value.length}ch`);
 };
-onValueChange_fn = function() {
+onValueChange_fn = function () {
   if (!__privateGet(this, _QuantityInput_instances, inputElement_get).checkValidity()) {
     __privateGet(this, _QuantityInput_instances, inputElement_get).stepDown();
   }
@@ -2462,7 +2464,7 @@ var Listbox = class extends HTMLElement {
 _accessibilityInitialized = new WeakMap();
 _hiddenInput = new WeakMap();
 _Listbox_instances = new WeakSet();
-setupAccessibility_fn = function() {
+setupAccessibility_fn = function () {
   this.setAttribute("role", "listbox");
   Array.from(this.querySelectorAll('[role="option"]')).forEach((option) => {
     option.addEventListener("click", __privateMethod(this, _Listbox_instances, onOptionClicked_fn).bind(this));
@@ -2473,7 +2475,7 @@ setupAccessibility_fn = function() {
   });
   __privateSet(this, _accessibilityInitialized, true);
 };
-onOptionClicked_fn = function(event) {
+onOptionClicked_fn = function (event) {
   if (event.currentTarget.getAttribute("type") === "submit") {
     return;
   }
@@ -2485,10 +2487,10 @@ onOptionClicked_fn = function(event) {
     }
   }));
 };
-onInputChanged_fn = function(event) {
+onInputChanged_fn = function (event) {
   this.setAttribute("aria-activedescendant", this.querySelector(`[role="option"][value="${CSS.escape(event.target.value)}"]`).id);
 };
-onKeyDown_fn = function(event) {
+onKeyDown_fn = function (event) {
   if (event.key === "ArrowUp") {
     event.target.previousElementSibling?.focus();
     event.preventDefault();
@@ -2516,7 +2518,7 @@ var ImageParallax = class extends HTMLElement {
   }
 };
 _ImageParallax_instances = new WeakSet();
-setupParallax_fn = function() {
+setupParallax_fn = function () {
   const [scale, translate] = [1.3, 0.15 * 100 / 1.3], isFirstSection = this.closest(".shopify-section").matches(":first-child");
   scroll(
     animate8(this.querySelector("img"), { transform: [`scale(${scale}) translateY(-${translate}%)`, `scale(${scale}) translateY(${translate}%)`] }, { easing: "linear" }),
@@ -2567,11 +2569,11 @@ _recipientSendOnProperty = new WeakMap();
 _offsetProperty = new WeakMap();
 _recipientFieldsContainer = new WeakMap();
 _GiftCardRecipient_instances = new WeakSet();
-synchronizeProperties_fn = function() {
+synchronizeProperties_fn = function () {
   __privateGet(this, _recipientOtherProperties).forEach((property) => property.disabled = !__privateGet(this, _recipientCheckbox).checked);
   __privateGet(this, _recipientFieldsContainer).toggleAttribute("hidden", !__privateGet(this, _recipientCheckbox).checked);
 };
-formatDate_fn = function(date) {
+formatDate_fn = function (date) {
   const offset = date.getTimezoneOffset();
   const offsetDate = new Date(date.getTime() - offset * 60 * 1e3);
   return offsetDate.toISOString().split("T")[0];
@@ -2599,14 +2601,14 @@ var ProductCard = class extends HTMLElement {
 };
 _delegate3 = new WeakMap();
 _ProductCard_instances = new WeakSet();
-onSwatchHovered_fn = async function(event, target) {
+onSwatchHovered_fn = async function (event, target) {
   const control = target.control;
   const primaryMediaElement = this.querySelector(".product-card__image--primary");
   if (control.hasAttribute("data-variant-media")) {
     __privateMethod(this, _ProductCard_instances, createMediaImg_fn).call(this, JSON.parse(control.getAttribute("data-variant-media")), primaryMediaElement.className, primaryMediaElement.sizes);
   }
 };
-onSwatchChanged_fn = async function(event, target) {
+onSwatchChanged_fn = async function (event, target) {
   if (target.hasAttribute("data-product-url")) {
     this.querySelectorAll(`a[href^="${Shopify.routes.root}products/"`).forEach((link) => {
       link.href = target.getAttribute("data-product-url");
@@ -2636,7 +2638,7 @@ onSwatchChanged_fn = async function(event, target) {
     newPrimaryMediaElement.animate({ opacity: [0, 1] }, { duration: 150, easing: "ease-in" });
   }
 };
-createMediaImg_fn = function(media, className, sizes) {
+createMediaImg_fn = function (media, className, sizes) {
   return createMediaImg(media, [200, 300, 400, 500, 600, 700, 800, 1e3, 1200, 1400, 1600, 1800], { class: className, sizes });
 };
 if (!window.customElements.get("product-card")) {
@@ -2664,10 +2666,10 @@ var ProductForm = class extends HTMLElement {
 };
 _abortController6 = new WeakMap();
 _ProductForm_instances = new WeakSet();
-form_get2 = function() {
+form_get2 = function () {
   return this.querySelector('form[action*="/cart/add"]');
 };
-onSubmit_fn = async function(event) {
+onSubmit_fn = async function (event) {
   event.preventDefault();
   if (event.submitter?.getAttribute("aria-busy") === "true") {
     return;
@@ -2756,7 +2758,7 @@ var BuyButtons = class extends HTMLElement {
 };
 _abortController7 = new WeakMap();
 _BuyButtons_instances = new WeakSet();
-onVariantAdded_fn = function(event) {
+onVariantAdded_fn = function (event) {
   const bannerElement = document.createRange().createContextualFragment(`
       <div class="banner banner--success" role="alert">
         ${window.themeVariables.strings.addedToCart}
@@ -2767,7 +2769,7 @@ onVariantAdded_fn = function(event) {
     bannerElement.remove();
   }, 2500);
 };
-onCartError_fn = function(event) {
+onCartError_fn = function (event) {
   const bannerElement = document.createRange().createContextualFragment(`
       <div class="banner banner--error" role="alert">
         ${event.detail.error}
@@ -2880,7 +2882,7 @@ _ProductGallery_instances = new WeakSet();
 /**
  * Add custom elements to PhotoSwipe gallery
  */
-registerLightboxUi_fn = function() {
+registerLightboxUi_fn = function () {
   __privateGet(this, _photoSwipeInstance).pswp.ui.registerElement({
     name: "close-button",
     className: "circle-button circle-button--xl hover:animate-icon-block",
@@ -2932,7 +2934,7 @@ registerLightboxUi_fn = function() {
 /**
  * When the section is re-rendered upon variant changes, the media might have been filtered
  */
-onSectionRerender_fn = function(event) {
+onSectionRerender_fn = function (event) {
   const galleryMarkup = deepQuerySelector(event.detail.htmlFragment, `${this.tagName}[form="${this.getAttribute("form")}"]`);
   if (!galleryMarkup) {
     return;
@@ -2945,7 +2947,7 @@ onSectionRerender_fn = function(event) {
 /**
  * When the variant changes, we check the alt tags for each media and filter them
  */
-onVariantChange_fn = function(event) {
+onVariantChange_fn = function (event) {
   if (!event.detail.variant) {
     return;
   }
@@ -2961,7 +2963,7 @@ onVariantChange_fn = function(event) {
 /**
  * When the media is about to change, we perform some logic
  */
-onMediaChange_fn = function() {
+onMediaChange_fn = function () {
   if (!__privateGet(this, _settledMedia)) {
     return;
   }
@@ -2975,7 +2977,7 @@ onMediaChange_fn = function() {
 /**
  * When the media settles, we have to update various elements such as the AR button, the autoplay strategy...
  */
-onMediaSettle_fn = function(event) {
+onMediaSettle_fn = function (event) {
   const media = event ? event.detail.cell : this.carousel.selectedCell, zoomButton = this.querySelector(".product-gallery__zoom-button");
   switch (media.getAttribute("data-media-type")) {
     case "image":
@@ -3003,7 +3005,7 @@ onMediaSettle_fn = function(event) {
 /**
  * Detect a click on an image on desktop, and open the lightbox for the corresponding image
  */
-onCarouselClick_fn = function(event) {
+onCarouselClick_fn = function (event) {
   if (!this.hasAttribute("allow-zoom") || !matchesMediaQuery("md") || event.target.tagName !== "IMG") {
     return;
   }
@@ -3017,11 +3019,11 @@ onCarouselClick_fn = function(event) {
 /**
  * For iOS devices only, we use the gesturechange event to easily detect a "pinch to zoom"
  */
-onGestureStart_fn = function(event) {
+onGestureStart_fn = function (event) {
   event.preventDefault();
   this.carousel.addEventListener("gesturechange", __privateGet(this, _onGestureChangedListener), { capture: false, signal: __privateGet(this, _abortController8).signal });
 };
-onGestureChanged_fn = function(event) {
+onGestureChanged_fn = function (event) {
   event.preventDefault();
   if (event.scale > 1.5) {
     this.dispatchEvent(new CustomEvent("lightbox:open", { bubbles: true, detail: { index: this.carousel.selectedIndex } }));
@@ -3077,7 +3079,7 @@ _ProductGalleryNavigation_instances = new WeakSet();
 /**
  * Use the intersection observer to change the selected icon
  */
-onMediaObserve_fn = function(entries) {
+onMediaObserve_fn = function (entries) {
   if (this.carousel.isScrollable) {
     return;
   }
@@ -3184,7 +3186,7 @@ var ProductRerender = class extends HTMLElement {
 };
 _abortController9 = new WeakMap();
 _ProductRerender_instances = new WeakSet();
-onRerender_fn = function(event) {
+onRerender_fn = function (event) {
   const matchingElement = deepQuerySelector(event.detail.htmlFragment, `#${this.id}`);
   if (!matchingElement) {
     return;
@@ -3252,7 +3254,7 @@ var QuickBuyModal = class extends Modal {
   }
 };
 _QuickBuyModal_instances = new WeakSet();
-onAfterHide_fn = function() {
+onAfterHide_fn = function () {
   this.innerHTML = "";
 };
 if (!window.customElements.get("quick-buy-modal")) {
@@ -3340,17 +3342,17 @@ _VariantPicker_instances = new WeakSet();
 /**
  * Get the option values for the active combination
  */
-getActiveOptionValues_fn = function() {
+getActiveOptionValues_fn = function () {
   return Array.from(__privateGet(this, _form).elements).filter((item) => item.matches("input[data-option-position]:checked")).sort((a, b) => parseInt(a.getAttribute("data-option-position")) - parseInt(b.getAttribute("data-option-position"))).map((input) => input.value);
 };
 /**
  * Get the option values for a given input
  */
-getOptionValuesFromOption_fn = function(input) {
+getOptionValuesFromOption_fn = function (input) {
   const optionValues = [input, ...Array.from(__privateGet(this, _form).elements).filter((item) => item.matches(`input[data-option-position]:not([name="${input.name}"]):checked`))].sort((a, b) => parseInt(a.getAttribute("data-option-position")) - parseInt(b.getAttribute("data-option-position"))).map((input2) => input2.value);
   return optionValues;
 };
-onOptionChanged_fn = async function(event) {
+onOptionChanged_fn = async function (event) {
   if (!event.target.name.includes("option")) {
     return;
   }
@@ -3362,14 +3364,14 @@ onOptionChanged_fn = async function(event) {
 /**
  * To improve the user experience, we preload a variant whenever the user hovers over a specific option
  */
-onOptionPreload_fn = function(event, target) {
+onOptionPreload_fn = function (event, target) {
   __privateMethod(this, _VariantPicker_instances, renderForCombination_fn).call(this, __privateMethod(this, _VariantPicker_instances, getOptionValuesFromOption_fn).call(this, target.control));
 };
 /**
  * When the variant picker is intersecting the viewport, we preload the options to improve the user experience
  * so that switching variants is nearly instant
  */
-onIntersection_fn = function(entries) {
+onIntersection_fn = function (entries) {
   const prerenderOptions = () => {
     Array.from(__privateGet(this, _form).elements).filter((item) => item.matches("input[data-option-position]:not(:checked)")).forEach((input) => {
       __privateMethod(this, _VariantPicker_instances, renderForCombination_fn).call(this, __privateMethod(this, _VariantPicker_instances, getOptionValuesFromOption_fn).call(this, input));
@@ -3383,7 +3385,7 @@ onIntersection_fn = function(entries) {
     }
   }
 };
-renderForCombination_fn = async function(optionValues) {
+renderForCombination_fn = async function (optionValues) {
   const optionValuesAsString = optionValues.join(",");
   const hashKey = __privateMethod(this, _VariantPicker_instances, createHashKeyForHtml_fn).call(this, optionValuesAsString);
   let productUrl = `${Shopify.routes.root}products/${this.productHandle}`;
@@ -3406,7 +3408,7 @@ renderForCombination_fn = async function(optionValues) {
   }
   return __privateGet(_VariantPicker, _preloadedHtml).get(hashKey).htmlPromise;
 };
-createHashKeyForHtml_fn = function(optionValuesAsString) {
+createHashKeyForHtml_fn = function (optionValuesAsString) {
   return `${optionValuesAsString}-${this.getAttribute("section-id")}`;
 };
 __privateAdd(_VariantPicker, _preloadedHtml, /* @__PURE__ */ new Map());
@@ -3710,7 +3712,7 @@ _CustomDetails_instances = new WeakSet();
  * By default, when clicking on the summary, the browser directly toggle the "open" attribute, which prevent to
  * perform animation. We therefore block that to allow doing an animation
  */
-onSummaryClicked_fn = function(event) {
+onSummaryClicked_fn = function (event) {
   event.preventDefault();
   if (this.disclosureElement.open && this.summaryElement.hasAttribute("data-follow-link")) {
     return window.location.href = this.summaryElement.getAttribute("data-follow-link");
@@ -3806,7 +3808,7 @@ _MenuDisclosure_instances = new WeakSet();
  * When dropdown menu is configured to open on click, we add a listener to detect click outside and automatically
  * close the navigation.
  */
-detectClickOutside_fn = function(event) {
+detectClickOutside_fn = function (event) {
   if (this.trigger !== "click") {
     return;
   }
@@ -3817,7 +3819,7 @@ detectClickOutside_fn = function(event) {
 /**
  * On desktop device, if the mode is set to hover, we open/close the dropdown on hover
  */
-detectHover_fn = function(event) {
+detectHover_fn = function (event) {
   if (this.trigger !== "hover") {
     return;
   }
@@ -3831,7 +3833,7 @@ detectHover_fn = function(event) {
 /**
  * Try to detect when the user hover a different link, to immediately close the item without extra delay
  */
-detectHoverOutside_fn = function(event) {
+detectHoverOutside_fn = function (event) {
   if (this.trigger !== "hover") {
     return;
   }
@@ -3844,7 +3846,7 @@ detectHoverOutside_fn = function(event) {
 /**
  * Detect if we hit the "Escape" key to automatically close the dropdown
  */
-detectEscKeyboard_fn = function(event) {
+detectEscKeyboard_fn = function (event) {
   if (event.code === "Escape") {
     const targetMenu = event.target.closest("details[open]");
     if (targetMenu && targetMenu instanceof _MenuDisclosure) {
@@ -3856,7 +3858,7 @@ detectEscKeyboard_fn = function(event) {
 /**
  * Close the dropdown automatically when the dropdown is focused out
  */
-detectFocusOut_fn = function(event) {
+detectFocusOut_fn = function (event) {
   if (event.relatedTarget && !this.contains(event.relatedTarget)) {
     this.toggle(false);
   }
@@ -3940,7 +3942,7 @@ _buttons = new WeakMap();
 _panels = new WeakMap();
 _delegate5 = new WeakMap();
 _Tabs_instances = new WeakSet();
-setupComponent_fn = function() {
+setupComponent_fn = function () {
   __privateSet(this, _buttons, Array.from(this.shadowRoot.querySelector('slot[name="title"]')?.assignedNodes() ?? [], (item) => item.matches("button") && item || item.querySelector("button")));
   __privateSet(this, _panels, Array.from(this.shadowRoot.querySelector('slot[name="content"]')?.assignedNodes() ?? []));
   __privateGet(this, _buttons).forEach((button, index) => {
@@ -3956,17 +3958,17 @@ setupComponent_fn = function() {
   });
   this.style.setProperty("--item-count", __privateGet(this, _buttons).length.toString());
 };
-onButtonClicked_fn = function(event, button) {
+onButtonClicked_fn = function (event, button) {
   this.selectedIndex = __privateGet(this, _buttons).indexOf(button);
 };
-onSlotChange_fn = function() {
+onSlotChange_fn = function () {
   __privateMethod(this, _Tabs_instances, setupComponent_fn).call(this);
 };
 /**
  * As per https://www.w3.org/WAI/ARIA/apg/example-index/tabs/tabs-automatic.html, when a tab is currently focused,
  * left and right arrow should switch the tab
  */
-handleKeyboard_fn = function(event) {
+handleKeyboard_fn = function (event) {
   const index = __privateGet(this, _buttons).indexOf(document.activeElement);
   if (index === -1 || !["ArrowLeft", "ArrowRight"].includes(event.key)) {
     return;
@@ -4029,7 +4031,7 @@ _PredictiveSearch_instances = new WeakSet();
 /**
  * Check if the input is not empty, and if so, trigger the predictive search
  */
-onInputChanged_fn2 = function() {
+onInputChanged_fn2 = function () {
   if (__privateGet(this, _queryInput).value === "") {
     return __privateMethod(this, _PredictiveSearch_instances, onSearchCleared_fn).call(this);
   }
@@ -4046,12 +4048,12 @@ onInputChanged_fn2 = function() {
 /**
  * Prevent the form submission if the query is empty
  */
-onFormSubmitted_fn2 = function(event) {
+onFormSubmitted_fn2 = function (event) {
   if (__privateGet(this, _queryInput).value === "") {
     return event.preventDefault();
   }
 };
-doPredictiveSearch_fn = async function() {
+doPredictiveSearch_fn = async function () {
   document.documentElement.dispatchEvent(new CustomEvent("theme:loading:start", { bubbles: true }));
   const url = `${window.Shopify.routes.root}search${this.supportsPredictiveApi() ? "/suggest" : ""}`, queryParams = `q=${encodeURIComponent(__privateGet(this, _queryInput).value)}&section_id=predictive-search&resources[limit]=10&resources[limit_scope]=each`, tempDoc = new DOMParser().parseFromString(await (await cachedFetch(`${url}?${queryParams}`, { signal: __privateGet(this, _fetchAbortController).signal })).text(), "text/html");
   this.querySelector('[slot="results"]').replaceChildren(...document.importNode(tempDoc.querySelector(".shopify-section"), true).children);
@@ -4060,7 +4062,7 @@ doPredictiveSearch_fn = async function() {
 /**
  * If any search is pending, we abort them, and transition to the idle slot
  */
-onSearchCleared_fn = function() {
+onSearchCleared_fn = function () {
   __privateGet(this, _fetchAbortController)?.abort();
   __privateGet(this, _queryInput).focus();
   this.querySelector('[slot="results"]').innerHTML = "";
@@ -4103,7 +4105,7 @@ var BeforeAfter = class extends HTMLElement {
 _onPointerMoveListener = new WeakMap();
 _touchStartTimestamp = new WeakMap();
 _BeforeAfter_instances = new WeakSet();
-onPointerDown_fn = function(event) {
+onPointerDown_fn = function (event) {
   if (event.target.tagName === "A") {
     return;
   }
@@ -4113,10 +4115,10 @@ onPointerDown_fn = function(event) {
     __privateMethod(this, _BeforeAfter_instances, calculatePosition_fn).call(this, event);
   }
 };
-onPointerMove_fn = function(event) {
+onPointerMove_fn = function (event) {
   __privateMethod(this, _BeforeAfter_instances, calculatePosition_fn).call(this, event);
 };
-onTouchStart_fn = function(event) {
+onTouchStart_fn = function (event) {
   const cursor = this.querySelector(".before-after__cursor");
   if (event.target === cursor || cursor.contains(event.target)) {
     event.preventDefault();
@@ -4125,7 +4127,7 @@ onTouchStart_fn = function(event) {
     __privateSet(this, _touchStartTimestamp, event.timeStamp);
   }
 };
-onPointerUp_fn = function(event) {
+onPointerUp_fn = function (event) {
   document.removeEventListener("pointermove", __privateGet(this, _onPointerMoveListener));
   if (!matchesMediaQuery("supports-hover")) {
     if (event.timeStamp - __privateGet(this, _touchStartTimestamp) <= 250) {
@@ -4133,7 +4135,7 @@ onPointerUp_fn = function(event) {
     }
   }
 };
-onKeyboardNavigation_fn2 = function(event) {
+onKeyboardNavigation_fn2 = function (event) {
   if (!event.target.classList.contains("before-after__cursor") || !this.hasAttribute("vertical") && event.code !== "ArrowLeft" && event.code !== "ArrowRight" || this.hasAttribute("vertical") && event.code !== "ArrowUp" && event.code !== "ArrowDown") {
     return;
   }
@@ -4150,7 +4152,7 @@ onKeyboardNavigation_fn2 = function(event) {
   }
   this.style.setProperty("--before-after-cursor-position", `${Math.min(Math.max(newPosition, 0), 100)}%`);
 };
-calculatePosition_fn = function(event) {
+calculatePosition_fn = function (event) {
   let rectangle = this.getBoundingClientRect(), percentage;
   if (this.hasAttribute("vertical")) {
     percentage = (event.clientY - rectangle.top) / this.clientHeight * 100;
@@ -4160,7 +4162,7 @@ calculatePosition_fn = function(event) {
   }
   this.style.setProperty("--before-after-cursor-position", `${Math.min(Math.max(percentage, 0), 100)}%`);
 };
-animateInitialPosition_fn = function() {
+animateInitialPosition_fn = function () {
   animate12((progress) => {
     this.style.setProperty("--before-after-cursor-position", `calc(var(--before-after-initial-cursor-position) * ${progress})`);
   }, { duration: 0.6, easing: [0.85, 0, 0.15, 1] });
@@ -4182,7 +4184,7 @@ var BlogPosts = class extends HTMLElement {
   }
 };
 _BlogPosts_instances = new WeakSet();
-reveal_fn = function() {
+reveal_fn = function () {
   this.style.opacity = "1";
   animate13(
     this.children,
@@ -4218,16 +4220,16 @@ _CartDrawer_instances = new WeakSet();
 /**
  * This method is called when the cart is changing, and allow custom sections to order a "re-render"
  */
-onBundleSection_fn = function(event) {
+onBundleSection_fn = function (event) {
   event.detail.sections.push(__privateGet(this, _sectionId));
 };
-onCartChange_fn = async function(event) {
+onCartChange_fn = async function (event) {
   __privateMethod(this, _CartDrawer_instances, replaceContent_fn).call(this, event.detail.cart["sections"][__privateGet(this, _sectionId)]);
   if ((window.themeVariables.settings.cartType === "drawer" || event.detail["onSuccessDo"] === "force_open_drawer") && event.detail.baseEvent === "variant:add") {
     this.show();
   }
 };
-onBeforeShow_fn = async function() {
+onBeforeShow_fn = async function () {
   const drawerFooter = this.shadowRoot.querySelector('[part="footer"]');
   if (!drawerFooter) {
     return;
@@ -4236,16 +4238,16 @@ onBeforeShow_fn = async function() {
   await waitForEvent(this, "dialog:after-show");
   animate14(drawerFooter, { opacity: [0, 1], transform: ["translateY(30px)", "translateY(0)"] }, { duration: 0.25, easing: [0.25, 0.46, 0.45, 0.94] });
 };
-onPageShow_fn = async function(event) {
+onPageShow_fn = async function (event) {
   if (!event.persisted) {
     return;
   }
   __privateMethod(this, _CartDrawer_instances, refreshCart_fn).call(this);
 };
-refreshCart_fn = async function() {
+refreshCart_fn = async function () {
   __privateMethod(this, _CartDrawer_instances, replaceContent_fn).call(this, await (await fetch(`${Shopify.routes.root}?section_id=${__privateGet(this, _sectionId)}`)).text());
 };
-replaceContent_fn = async function(html) {
+replaceContent_fn = async function (html) {
   const domElement = new DOMParser().parseFromString(html, "text/html"), newCartDrawer = document.createRange().createContextualFragment(domElement.getElementById(`shopify-section-${__privateGet(this, _sectionId)}`).querySelector("cart-drawer").innerHTML), itemCount = (await fetchCart)["item_count"];
   if (itemCount === 0) {
     const controls = timeline7([
@@ -4291,7 +4293,7 @@ var CollectionBanner = class extends HTMLElement {
   }
 };
 _CollectionBanner_instances = new WeakSet();
-reveal_fn2 = async function() {
+reveal_fn2 = async function () {
   const image = this.querySelector(".content-over-media > picture img, .content-over-media > image-parallax img"), hasParallax = this.querySelector(".content-over-media image-parallax") !== null, content = this.querySelector(".content-over-media > .prose");
   await imageLoaded(image);
   const transformEffect = 0.15 * 100 / 1.3;
@@ -4318,7 +4320,7 @@ var CollectionLayoutSwitch = class extends HTMLElement {
 };
 _delegate6 = new WeakMap();
 _CollectionLayoutSwitch_instances = new WeakSet();
-onLayoutSwitch_fn = function(event, target) {
+onLayoutSwitch_fn = function (event, target) {
   if (target.classList.contains("is-active")) {
     return;
   }
@@ -4327,7 +4329,7 @@ onLayoutSwitch_fn = function(event, target) {
   this.controlledList.reveal();
   __privateMethod(this, _CollectionLayoutSwitch_instances, setCartAttribute_fn).call(this, target.value);
 };
-setCartAttribute_fn = function(newLayout) {
+setCartAttribute_fn = function (newLayout) {
   const attributeProperty = `products_${this.getAttribute("device")}_grid_mode`;
   fetch(`${Shopify.routes.root}cart/update.js`, {
     method: "POST",
@@ -4394,7 +4396,7 @@ _expirationDate = new WeakMap();
 _interval = new WeakMap();
 _isVisible = new WeakMap();
 _CountdownTimer_instances = new WeakSet();
-recalculateFlips_fn = function() {
+recalculateFlips_fn = function () {
   const dateNow = /* @__PURE__ */ new Date();
   if (__privateGet(this, _expirationDate) < dateNow) {
     if (this.getAttribute("expiration-behavior") === "hide") {
@@ -4473,13 +4475,13 @@ var AccountLogin = class extends HTMLElement {
   }
 };
 _AccountLogin_instances = new WeakSet();
-loginForm_get = function() {
+loginForm_get = function () {
   return this.querySelector("#login");
 };
-recoverForm_get = function() {
+recoverForm_get = function () {
   return this.querySelector("#recover");
 };
-switchForm_fn = async function() {
+switchForm_fn = async function () {
   const fromForm = window.location.hash === "#recover" ? __privateGet(this, _AccountLogin_instances, loginForm_get) : __privateGet(this, _AccountLogin_instances, recoverForm_get), toForm = window.location.hash === "#recover" ? __privateGet(this, _AccountLogin_instances, recoverForm_get) : __privateGet(this, _AccountLogin_instances, loginForm_get);
   await animate16(fromForm, { transform: ["translateY(0)", "translateY(30px)"], opacity: [1, 0] }, { duration: 0.6, easing: "ease" }).finished;
   fromForm.hidden = true;
@@ -4513,7 +4515,7 @@ var FaqToc = class extends HTMLElement {
 };
 _observer = new WeakMap();
 _FaqToc_instances = new WeakSet();
-onObserve_fn = function(entries) {
+onObserve_fn = function (entries) {
   for (const entry of entries) {
     const anchorLink = this.anchorLinks.find((anchor) => anchor.getAttribute("href") === `#${entry.target.id}`);
     if (!entry.isIntersecting && anchorLink.classList.contains("is-active")) {
@@ -4571,16 +4573,16 @@ _abortController10 = new WeakMap();
 _scrollYTrackingPosition = new WeakMap();
 _isVisible2 = new WeakMap();
 _Header_instances = new WeakSet();
-onHeaderTrackerIntersection_fn = function(entries) {
+onHeaderTrackerIntersection_fn = function (entries) {
   this.classList.toggle("is-solid", !entries[0].isIntersecting);
 };
-detectMousePosition_fn = function(event) {
+detectMousePosition_fn = function (event) {
   if (event.clientY < 100 && window.matchMedia("screen and (pointer: fine)").matches) {
     __privateMethod(this, _Header_instances, setVisibility_fn).call(this, true);
     __privateSet(this, _scrollYTrackingPosition, 0);
   }
 };
-detectScrollDirection_fn = function() {
+detectScrollDirection_fn = function () {
   let isVisible;
   const scrollY = Math.max(0, window.scrollY);
   if (scrollY > __privateGet(this, _scrollYTrackingPosition) && scrollY - __privateGet(this, _scrollYTrackingPosition) > 100) {
@@ -4594,7 +4596,7 @@ detectScrollDirection_fn = function() {
     __privateMethod(this, _Header_instances, setVisibility_fn).call(this, isVisible);
   }
 };
-setVisibility_fn = function(isVisible) {
+setVisibility_fn = function (isVisible) {
   if (isVisible !== __privateGet(this, _isVisible2)) {
     if (!isVisible && this.querySelectorAll("[open]").length > 0) {
       return;
@@ -4670,7 +4672,7 @@ var HeaderSearch = class extends DialogElement {
   }
 };
 _HeaderSearch_instances = new WeakSet();
-calculateMaxHeight_fn = function() {
+calculateMaxHeight_fn = function () {
   const boundingRect = this.getBoundingClientRect(), maxHeight = window.innerHeight - boundingRect.top;
   this.style.setProperty("--header-search-max-height", `${maxHeight}px`);
 };
@@ -4703,26 +4705,26 @@ var HeaderSidebar = class extends Drawer {
 _collapsiblePanel = new WeakMap();
 _buttonElements = new WeakMap();
 _HeaderSidebar_instances = new WeakSet();
-openCollapsiblePanel_fn = function(event) {
+openCollapsiblePanel_fn = function (event) {
   __privateGet(this, _buttonElements).forEach((button) => button.setAttribute("aria-expanded", button === event.currentTarget ? "true" : "false"));
   __privateGet(this, _collapsiblePanel)?.setAttribute("aria-activedescendant", event.currentTarget.getAttribute("aria-controls"));
   if (matchesMediaQuery("md-max")) {
     animate18(this.querySelector(".header-sidebar__main-panel"), { opacity: [1, 0], transform: ["translateX(0)", "translateX(-10px)"] }, { duration: 0.25 });
   }
 };
-onSidebarBeforeShow_fn = function() {
+onSidebarBeforeShow_fn = function () {
   animate18(this.querySelector(".header-sidebar__main-panel"), { opacity: 0, transform: "translateX(0)" }, { duration: 0 });
 };
-onSidebarAfterShow_fn = function() {
+onSidebarAfterShow_fn = function () {
   this.revealItems();
 };
-onSidebarBeforeHide_fn = function() {
+onSidebarBeforeHide_fn = function () {
   if (matchesMediaQuery("md")) {
     __privateGet(this, _collapsiblePanel)?.removeAttribute("aria-activedescendant");
     __privateGet(this, _buttonElements).forEach((button) => button.setAttribute("aria-expanded", "false"));
   }
 };
-onSidebarAfterHide_fn = function() {
+onSidebarAfterHide_fn = function () {
   if (matchesMediaQuery("md-max")) {
     __privateGet(this, _collapsiblePanel)?.removeAttribute("aria-activedescendant");
     __privateGet(this, _buttonElements).forEach((button) => button.setAttribute("aria-expanded", "false"));
@@ -4785,11 +4787,11 @@ var HeaderSidebarCollapsiblePanel = class extends DialogElement {
 };
 _sidebarDelegate = new WeakMap();
 _HeaderSidebarCollapsiblePanel_instances = new WeakSet();
-closePanel_fn = function() {
+closePanel_fn = function () {
   this.removeAttribute("aria-activedescendant");
   this.closest("header-sidebar").revealItems(true);
 };
-switchPanel_fn = async function(fromPanel, toPanel) {
+switchPanel_fn = async function (fromPanel, toPanel) {
   if (!this.open) {
     await this.show();
   }
@@ -4839,7 +4841,7 @@ var ImageWithText = class extends HTMLElement {
   }
 };
 _ImageWithText_instances = new WeakSet();
-onBecameVisible_fn = async function(target) {
+onBecameVisible_fn = async function (target) {
   await imageLoaded(target);
   const fromValue = (window.direction === "rtl" ? -1 : 1) * (matchesMediaQuery("md-max") ? 0.6 : 1) * (this.classList.contains("image-with-text--reverse") ? 25 : -25);
   animate19(
@@ -4873,7 +4875,7 @@ var ImageWithTextOverlay = class extends HTMLElement {
 };
 _preventInitialTransition2 = new WeakMap();
 _ImageWithTextOverlay_instances = new WeakSet();
-onBecameVisible_fn2 = async function(target) {
+onBecameVisible_fn2 = async function (target) {
   const media = target.querySelector(".content-over-media > picture img, .content-over-media > svg"), content = target.querySelector(".content-over-media > :not(picture, svg)");
   await imageLoaded(media);
   const animationControls = timeline10([
@@ -4955,7 +4957,7 @@ _ImagesWithTextScroll_instances = new WeakSet();
 /**
  * Setup the different observers for the desktop experience
  */
-setupScrollObservers_fn = function() {
+setupScrollObservers_fn = function () {
   __privateGet(this, _textElements).forEach((textElement) => {
     scroll2(animate20(textElement, { opacity: [0, 0.25, 1, 0.25, 0] }), { target: textElement, offset: ScrollOffset.Any });
   });
@@ -4973,7 +4975,7 @@ setupScrollObservers_fn = function() {
 /**
  * Due to how different the experience is on mobile and desktop, we use an observer to toggle between one mode and other
  */
-onBreakpointChanged_fn = function(event) {
+onBreakpointChanged_fn = function (event) {
   if (event.matches) {
     __privateGet(this, _imageElements).forEach((image) => image.style = null);
     __privateGet(this, _textElements).forEach((text) => text.style = null);
@@ -5019,7 +5021,7 @@ var MediaGrid = class extends HTMLElement {
   }
 };
 _MediaGrid_instances = new WeakSet();
-onReveal_fn = async function(entry) {
+onReveal_fn = async function (entry) {
   await imageLoaded(entry.target.querySelector(":scope > img"));
   animate21(entry.target, { opacity: [0, 1] }, { duration: 0.35, easing: "ease" });
 };
@@ -5062,7 +5064,7 @@ var MultipleMediaWithText = class extends HTMLElement {
 };
 _preventInitialTransition3 = new WeakMap();
 _MultipleMediaWithText_instances = new WeakSet();
-onBecameVisible_fn3 = function() {
+onBecameVisible_fn3 = function () {
   const timelineSequence = timeline12([
     [this, { opacity: 1 }, { duration: 0 }],
     "media",
@@ -5129,15 +5131,15 @@ var PrivacyBanner = class extends PopIn {
 };
 _delegate7 = new WeakMap();
 _PrivacyBanner_instances = new WeakSet();
-onConsentLibraryLoaded_fn = function() {
+onConsentLibraryLoaded_fn = function () {
   if (window.Shopify.customerPrivacy?.shouldShowBanner()) {
     this.show();
   }
 };
-acceptPolicy_fn = function() {
+acceptPolicy_fn = function () {
   window.Shopify.customerPrivacy?.setTrackingConsent(true, this.hide.bind(this));
 };
-declinePolicy_fn = function() {
+declinePolicy_fn = function () {
   window.Shopify.customerPrivacy?.setTrackingConsent(false, this.hide.bind(this));
 };
 if (!window.customElements.get("privacy-banner")) {
@@ -5174,7 +5176,7 @@ _footerElement = new WeakMap();
 _latestFooterCondition = new WeakMap();
 _latestFormCondition = new WeakMap();
 _ProductStickyBar_instances = new WeakSet();
-onFormVisibilityChange_fn = function(entries) {
+onFormVisibilityChange_fn = function (entries) {
   const [formEntry, footerEntry] = [entries.find((entry) => entry.target === __privateGet(this, _formElement)), entries.find((entry) => entry.target === __privateGet(this, _footerElement))];
   if (formEntry) {
     __privateSet(this, _latestFormCondition, !formEntry.isIntersecting && formEntry.boundingClientRect.bottom < 0);
@@ -5202,7 +5204,7 @@ var ProductRecommendations = class extends HTMLElement {
 };
 _isLoaded = new WeakMap();
 _ProductRecommendations_instances = new WeakSet();
-loadRecommendations_fn = async function() {
+loadRecommendations_fn = async function () {
   if (__privateGet(this, _isLoaded)) {
     return;
   }
@@ -5233,10 +5235,10 @@ var QuickOrderList = class extends HTMLElement {
 };
 _abortController11 = new WeakMap();
 _QuickOrderList_instances = new WeakSet();
-onQuantityChange_fn = async function() {
+onQuantityChange_fn = async function () {
   __privateGet(this, _abortController11)?.abort();
 };
-onUpdate_fn = async function(event) {
+onUpdate_fn = async function (event) {
   let sectionsToBundle = [extractSectionId(this)];
   document.documentElement.dispatchEvent(new CustomEvent("cart:prepare-bundled-sections", { bubbles: true, detail: { sections: sectionsToBundle } }));
   __privateSet(this, _abortController11, new AbortController());
@@ -5264,7 +5266,7 @@ onUpdate_fn = async function(event) {
   } catch (error) {
   }
 };
-onQuantityUpdated_fn = async function(response) {
+onQuantityUpdated_fn = async function (response) {
   const cartContent = await response.json(), sectionId = extractSectionId(this);
   document.documentElement.dispatchEvent(new CustomEvent("cart:change", {
     bubbles: true,
@@ -5285,7 +5287,7 @@ var QuickOrderListQuantitySelector = class extends HTMLElement {
   }
 };
 _QuickOrderListQuantitySelector_instances = new WeakSet();
-onQuantityChange_fn2 = function(event) {
+onQuantityChange_fn2 = function (event) {
   this.dispatchEvent(new CustomEvent("quick-order-list:update", {
     bubbles: true,
     detail: {
@@ -5293,7 +5295,7 @@ onQuantityChange_fn2 = function(event) {
     }
   }));
 };
-onCartError_fn2 = function(event) {
+onCartError_fn2 = function (event) {
   const errorSvg = `<svg width="13" height="13" fill="none" viewBox="0 0 13 13">
         <circle cx="6.5" cy="6.5" r="6.5" fill="#BF1515"/>
         <path fill="#fff" d="M6.75 7.97a.387.387 0 0 1-.3-.12.606.606 0 0 1-.12-.34l-.3-3.82c-.02-.247.033-.443.16-.59.127-.153.313-.23.56-.23.24 0 .42.077.54.23.127.147.18.343.16.59l-.3 3.82a.522.522 0 0 1-.12.34.344.344 0 0 1-.28.12Zm0 2.08a.744.744 0 0 1-.55-.21.751.751 0 0 1-.2-.54c0-.213.067-.387.2-.52.14-.14.323-.21.55-.21.233 0 .413.07.54.21.133.133.2.307.2.52 0 .22-.067.4-.2.54-.127.14-.307.21-.54.21Z"/>
@@ -5310,7 +5312,7 @@ var QuickOrderListRemoveVariant = class extends HTMLElement {
   }
 };
 _QuickOrderListRemoveVariant_instances = new WeakSet();
-onClick_fn = function() {
+onClick_fn = function () {
   this.dispatchEvent(new CustomEvent("quick-order-list:update", {
     bubbles: true,
     detail: {
@@ -5327,7 +5329,7 @@ var QuickOrderListRemoveAll = class extends HTMLElement {
   }
 };
 _QuickOrderListRemoveAll_instances = new WeakSet();
-onClick_fn2 = function() {
+onClick_fn2 = function () {
   const updates = JSON.parse(this.getAttribute("variant-ids")).reduce((acc, variantId) => {
     acc[variantId] = 0;
     return acc;
@@ -5366,14 +5368,14 @@ var RecentlyViewedProducts = class extends HTMLElement {
 };
 _isLoaded2 = new WeakMap();
 _RecentlyViewedProducts_instances = new WeakSet();
-searchQueryString_get = function() {
+searchQueryString_get = function () {
   const items = new Set(JSON.parse(localStorage.getItem("theme:recently-viewed-products") || "[]"));
   if (this.hasAttribute("exclude-id")) {
     items.delete(parseInt(this.getAttribute("exclude-id")));
   }
   return Array.from(items.values(), (item) => `id:${item}`).slice(0, parseInt(this.getAttribute("products-count"))).join(" OR ");
 };
-loadProducts_fn = async function() {
+loadProducts_fn = async function () {
   if (__privateGet(this, _isLoaded2)) {
     return;
   }
@@ -5420,27 +5422,27 @@ var ShopTheLookMobileCarousel = class extends ScrollCarousel {
 _controlledPopover = new WeakMap();
 _selectedHotSpot = new WeakMap();
 _ShopTheLookMobileCarousel_instances = new WeakSet();
-setInitialPosition_fn = function() {
+setInitialPosition_fn = function () {
   __privateSet(this, _selectedHotSpot, this.selectedCell.querySelector('.shop-the-look__hot-spot[aria-current="true"]'));
   __privateMethod(this, _ShopTheLookMobileCarousel_instances, onLookChanged_fn).call(this);
 };
-onSpotSelected_fn = function() {
+onSpotSelected_fn = function () {
   if (!this.isExpanded) {
     document.getElementById(this.selectedCell.getAttribute("data-popover-id")).show();
   }
 };
-onUpdateHotSpotPosition_fn = function(list) {
+onUpdateHotSpotPosition_fn = function (list) {
   __privateSet(this, _selectedHotSpot, list.querySelector('.shop-the-look__hot-spot[aria-current="true"]'));
   if (this.isExpanded) {
     __privateMethod(this, _ShopTheLookMobileCarousel_instances, changeLookFocalPoint_fn).call(this);
   }
 };
-onLookChanged_fn = function() {
+onLookChanged_fn = function () {
   const popoverId = this.selectedCell.getAttribute("data-popover-id");
   __privateSet(this, _controlledPopover, document.getElementById(popoverId));
   this.nextElementSibling.setAttribute("aria-controls", popoverId);
 };
-changeLookFocalPoint_fn = function() {
+changeLookFocalPoint_fn = function () {
   const scale = window.innerWidth / this.selectedCell.clientWidth, remainingSpace = window.innerHeight - __privateGet(this, _controlledPopover).shadowRoot.querySelector('[part="base"]').clientHeight, imageHeightAfterScale = Math.round(this.selectedCell.querySelector(".shop-the-look__image-wrapper").clientHeight * scale), outsideViewportImageHeight = Math.max(imageHeightAfterScale - remainingSpace, 0), insideViewportImageHeight = imageHeightAfterScale - outsideViewportImageHeight, hotSpotFocalPoint = Math.round((__privateGet(this, _selectedHotSpot).offsetTop + __privateGet(this, _selectedHotSpot).clientHeight / 2) * scale), offsetToMove = Math.round(hotSpotFocalPoint - insideViewportImageHeight / 2), minTranslateY = Math.round(-(this.parentElement.getBoundingClientRect().top - (imageHeightAfterScale - this.selectedCell.offsetHeight) / 2)), maxTranslateY = Math.round(minTranslateY - outsideViewportImageHeight), translateY = Math.min(Math.max(minTranslateY - offsetToMove, maxTranslateY), minTranslateY);
   if (!this.isExpanded) {
     animate22(this, { transform: ["translateY(0) scale(1)", `translateY(${translateY}px) scale(${scale})`] }, { duration: 0.4, easing: [0.645, 0.045, 0.355, 1] });
@@ -5450,7 +5452,7 @@ changeLookFocalPoint_fn = function() {
   }
   this.classList.add("is-expanded");
 };
-restorePosition_fn = function() {
+restorePosition_fn = function () {
   animate22(this, { transform: "translateY(0) scale(1)" }, { duration: 0.4, easing: [0.645, 0.045, 0.355, 1] }).finished.then(() => {
     this.style.transform = null;
   });
@@ -5466,7 +5468,7 @@ var ShopTheLookProductListCarousel = class extends EffectCarousel {
   }
 };
 _ShopTheLookProductListCarousel_instances = new WeakSet();
-updateButtonLink_fn = function(event) {
+updateButtonLink_fn = function (event) {
   const productCard = event.detail.cell.querySelector(".product-card");
   if (productCard.hasAttribute("handle")) {
     this.nextElementSibling.href = `${Shopify.routes.root}products/${productCard.getAttribute("handle")}`;
@@ -5570,13 +5572,13 @@ var SlideshowCarousel = class extends EffectCarousel {
 _delegate8 = new WeakMap();
 _onVideoEndedListener = new WeakMap();
 _SlideshowCarousel_instances = new WeakSet();
-autoplayPauseOnVideo_get = function() {
+autoplayPauseOnVideo_get = function () {
   return this.hasAttribute("autoplay-pause-on-video");
 };
 /**
  * Generate the part of the sequence when the given slide is entering
  */
-getSlideEnteringSequence_fn = function(slide) {
+getSlideEnteringSequence_fn = function (slide) {
   const slideContent = slide.querySelector(".slideshow__slide-content");
   if (slideContent.classList.contains("slideshow__slide-content--boxed")) {
     return [
@@ -5596,7 +5598,7 @@ getSlideEnteringSequence_fn = function(slide) {
 /**
  * Generate the part of the sequence when the given slide is leaving
  */
-getSlideLeavingSequence_fn = function(slide) {
+getSlideLeavingSequence_fn = function (slide) {
   const slideContent = slide.querySelector(".slideshow__slide-content");
   if (slideContent.classList.contains("slideshow__slide-content--boxed")) {
     return [
@@ -5614,21 +5616,21 @@ getSlideLeavingSequence_fn = function(slide) {
 /**
  * Mute the video for the active slide, by ignoring the video that may not be visible
  */
-muteVideo_fn = function(event) {
+muteVideo_fn = function (event) {
   event.preventDefault();
   Array.from(this.selectedCell.querySelectorAll("video")).filter((video) => video.offsetParent).forEach((video) => video.muted = true);
 };
 /**
  * Unmute the video for the active slide, by ignoring the video that may not be visible
  */
-unmuteVideo_fn = function(event) {
+unmuteVideo_fn = function (event) {
   event.preventDefault();
   Array.from(this.selectedCell.querySelectorAll("video")).filter((video) => video.offsetParent).forEach((video) => video.muted = false);
 };
 /**
  * Update the volume controls button (if any) based on whether the video is mute or not
  */
-onVolumeChange_fn = function(event) {
+onVolumeChange_fn = function (event) {
   const volumeControl = event.target.closest(".slideshow__slide").querySelector(".slideshow__volume-control");
   if (volumeControl) {
     volumeControl.querySelector('[data-action="unmute"]').hidden = !event.target.muted;
@@ -5638,7 +5640,7 @@ onVolumeChange_fn = function(event) {
 /**
  * Do action when the slide settles
  */
-onSlideSettle_fn = function(event) {
+onSlideSettle_fn = function (event) {
   const videoList = Array.from(event.detail.cell.querySelectorAll("video"));
   if (__privateGet(this, _SlideshowCarousel_instances, autoplayPauseOnVideo_get) && this.cells.length > 1 && videoList.length > 0) {
     this.player?.pause();
@@ -5649,16 +5651,16 @@ onSlideSettle_fn = function(event) {
  * If the merchant decide to autorotate but to stop autoplay when video is playing, we register a listener that
  * will move to the next slide (if any)
  */
-onVideoEnded_fn = function() {
+onVideoEnded_fn = function () {
   this.next();
 };
 /**
  * Scroll to the next section when the button is clicked, by leveraging JS native scroll
  */
-onNextButtonClicked_fn = function() {
+onNextButtonClicked_fn = function () {
   this.closest(".shopify-section").nextElementSibling?.scrollIntoView({ block: "start", behavior: "smooth" });
 };
-handleAutoplayProgress_fn = async function(event) {
+handleAutoplayProgress_fn = async function (event) {
   switch (event.type) {
     case "player:start":
       let autoplayDuration = this.getAttribute("autoplay");
@@ -5869,3 +5871,145 @@ export {
   videoLoaded,
   waitForEvent
 };
+
+/** --- Focal Mobile Menu Support (Added) --- **/
+
+class ToggleButton extends HTMLButtonElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.addEventListener('click', this._onClick.bind(this));
+  }
+
+  _onClick(event) {
+    const controls = this.getAttribute('aria-controls');
+    if (!controls) return;
+
+    const target = document.getElementById(controls);
+    if (!target) return;
+
+    const expanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', !expanded);
+
+    if (target.tagName.toLowerCase() === 'collapsible-content') {
+      target.open = !expanded;
+    } else {
+      if (target.hasAttribute('open')) {
+        target.removeAttribute('open');
+        if (target.tagName.toLowerCase() === 'mobile-navigation') {
+          document.documentElement.classList.remove('lock-scroll');
+        }
+      } else {
+        target.setAttribute('open', '');
+        if (target.tagName.toLowerCase() === 'mobile-navigation') {
+          document.documentElement.classList.add('lock-scroll');
+        }
+      }
+    }
+  }
+}
+
+if (!window.customElements.get('toggle-button')) {
+  window.customElements.define('toggle-button', ToggleButton, { extends: 'button' });
+}
+
+class CollapsibleContent extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  static get observedAttributes() { return ['open']; }
+
+  connectedCallback() {
+    this._update();
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'open') {
+      this._update();
+    }
+  }
+
+  _update() {
+    if (this.hasAttribute('open')) {
+      this.style.height = `${this.scrollHeight}px`;
+      this.setAttribute('aria-hidden', 'false');
+    } else {
+      this.style.height = '0';
+      this.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  set open(value) {
+    if (value) {
+      this.setAttribute('open', '');
+    } else {
+      this.removeAttribute('open');
+    }
+  }
+
+  get open() {
+    return this.hasAttribute('open');
+  }
+}
+
+if (!window.customElements.get('collapsible-content')) {
+  window.customElements.define('collapsible-content', CollapsibleContent);
+}
+
+class MobileNavigation extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.addEventListener('click', (event) => {
+      if (event.target.matches('[data-action="close"]') || event.target.closest('[data-action="close"]') || event.target.matches('.drawer__overlay')) {
+        this.close();
+      }
+    });
+  }
+
+  open() {
+    this.setAttribute('open', '');
+    document.documentElement.classList.add('lock-scroll');
+  }
+
+  close() {
+    this.removeAttribute('open');
+    document.documentElement.classList.remove('lock-scroll');
+
+    // Close all nested collapsibles
+    this.querySelectorAll('collapsible-content').forEach(collapsible => {
+      collapsible.removeAttribute('open');
+    });
+    this.querySelectorAll('[is="toggle-button"]').forEach(button => {
+      button.setAttribute('aria-expanded', 'false');
+    });
+  }
+}
+
+if (!window.customElements.get('mobile-navigation')) {
+  window.customElements.define('mobile-navigation', MobileNavigation);
+}
+
+class PopoverContent extends HTMLElement {
+  constructor() {
+    super();
+  }
+  static get observedAttributes() { return ['open']; }
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'open') {
+      if (this.hasAttribute('open')) {
+        this.setAttribute('aria-hidden', 'false');
+      } else {
+        this.setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+}
+if (!window.customElements.get('popover-content')) {
+  window.customElements.define('popover-content', PopoverContent);
+}

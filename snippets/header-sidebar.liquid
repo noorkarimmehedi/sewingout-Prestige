@@ -1,183 +1,219 @@
-{%- comment -%}
-----------------------------------------------------------------------------------------------------------------------
-HEADER SIDEBAR COMPONENT
-----------------------------------------------------------------------------------------------------------------------
+{%- assign direction = 'ltr' -%}
+{%- case request.locale.iso_code -%}
+  {%- when 'ar' or 'arc' or 'dv' or 'fa' or 'ha' or 'he' or 'kwh' or 'ks' or 'ku' or 'ps' or 'ur' or 'yi' -%}
+    {%- assign direction = 'rtl' -%}
+{%- endcase -%}
 
-This snippet the navigation sidebar for the header. It is used for both the mobile menu and for the desktop menu when
-the merchant configures the drawer mode.
+<mobile-navigation append-body id="mobile-menu-drawer" class="drawer {% if direction == 'ltr' %}drawer--from-left{% endif %}">
+  <span class="drawer__overlay"></span>
 
-********************************************
-Supported variables
-********************************************
-
-* menu: the menu to render
-* color_scheme: the color scheme to use for the sidebar
-* show_dividers: whether dividers are shown for the collapsible
-* open_second_level_menus: if true, second level dropdown are open by default
-{%- endcomment -%}
-
-{%- comment -%}
-IMPLEMENTATION NOTE: while being a drawer, the sidebar has a completely different structure for the content. We are
-therefore using a different structure for the Shadow DOM template
-{%- endcomment -%}
-<template id="header-sidebar-template">
-  <div part="base">
-    <div part="overlay"></div>
-
-    <div part="content">
-      <header part="header">
-        <dialog-close-button class="contents">
-          <button type="button" part="close-button tap-area" aria-label="{{ 'general.accessibility.close' | t | escape }}">
-            {%- render 'icon' with 'close', width: 16 -%}
-          </button>
-        </dialog-close-button>
-      </header>
-
-      <div part="panel-list">
-        <slot name="main-panel"></slot>
-
-        {%- if menu.levels > 0 -%}
-          <slot name="collapsible-panel"></slot>
-        {%- endif -%}
-      </div>
-    </div>
+  <div class="drawer__header drawer__header--shadowed">
+    <button type="button" class="drawer__close-button drawer__close-button--block tap-area" data-action="close" title="{{ 'general.accessibility.close' | t | escape }}">
+      {%- render 'icon' with 'close' -%}
+    </button>
   </div>
-</template>
 
-<header-sidebar id="sidebar-menu" class="header-sidebar drawer drawer--sm color-scheme color-scheme--{{ color_scheme.id }}" template="header-sidebar-template" open-from="left">
-  {%- comment -%}We are using a Shadow DOM where each panel has a slot, so we can directly render each level individually{%- endcomment -%}
+  <div class="drawer__content">
+    <ul class="mobile-nav list--unstyled" role="list">
+      {%- for link in menu.links -%}
+        {%- assign link_title_downcase = link.title | strip | downcase -%}
+        {%- assign mega_menu_block = '' -%}
+        {%- assign mega_menu_images = '' -%}
 
-  {%- comment -%}Panel 1 is the first level{%- endcomment -%}
-  <div class="header-sidebar__main-panel" slot="main-panel">
-    <div class="header-sidebar__scroller">
-      <ul class="header-sidebar__linklist {% if show_dividers %}divide-y{% endif %} unstyled-list" role="list">
-        {%- for link in menu.links -%}
-          <li>
-            {%- if link.links.size > 0 -%}
-              <button type="button" class="header-sidebar__linklist-button {% if section.settings.sidebar_text_font == 'heading' %}h6{% endif %}" aria-controls="header-panel-{{ forloop.index }}" aria-expanded="false">
-                {{- link.title -}}
-                {%- render 'icon' with 'chevron-right', width: 12, direction_aware: true -%}
-              </button>
-            {%- else -%}
-              <a href="{{ link.url }}" class="header-sidebar__linklist-button {% if section.settings.sidebar_text_font == 'heading' %}h6{% endif %}">
-                {{- link.title -}}
-              </a>
-            {%- endif -%}
-          </li>
+        {%- for block in section.blocks -%}
+          {%- assign menu_item_downcase = block.settings.menu_item | strip | downcase -%}
+
+          {%- if menu_item_downcase == link_title_downcase -%}
+            {%- assign mega_menu_block = block -%}
+            {%- break -%}
+          {%- endif -%}
         {%- endfor -%}
-      </ul>
-    </div>
 
-    {%- liquid
-      if section.settings.show_country_selector and localization.available_countries.size > 1
-        assign show_country_selector = true
-      endif
+        {%- if mega_menu_block != '' -%}
+          {%- assign images_count = 0 -%}
 
-      if section.settings.show_locale_selector and localization.available_languages.size > 1
-        assign show_locale_selector = true
-      endif
-    -%}
+          {%- capture mega_menu_images -%}
+            {%- for i in (1..6) -%}
+              {%- capture image_setting -%}image_{{ i }}{%- endcapture -%}
 
-    {%- if shop.customer_accounts_enabled or show_country_selector or show_locale_selector -%}
-      <div class="header-sidebar__footer">
+              {%- if mega_menu_block.settings[image_setting] != blank -%}
+                {%- assign images_count = images_count | plus: 1 -%}
+
+                {%- capture image_heading_setting -%}image_{{ i }}_heading{%- endcapture -%}
+                {%- capture image_text_setting -%}image_{{ i }}_text{%- endcapture -%}
+                {%- capture image_link_setting -%}image_{{ i }}_link{%- endcapture -%}
+
+                {%- capture image_push -%}
+                  <img class="mobile-nav__image" loading="lazy" sizes="270px" {% render 'image-attributes', image: mega_menu_block.settings[image_setting], sizes: '270,540,810' %}>
+
+                  {%- if mega_menu_block.settings[image_heading_setting] != '' -%}
+                    <p class="mobile-nav__image-heading heading heading--xsmall">{{ mega_menu_block.settings[image_heading_setting] }}</p>
+                  {%- endif -%}
+
+                  {%- if mega_menu_block.settings[image_text_setting] != '' -%}
+                    <span class="mobile-nav__image-text text--xsmall">{{ mega_menu_block.settings[image_text_setting] }}</span>
+                  {%- endif -%}
+                {%- endcapture -%}
+
+                {%- if mega_menu_block.settings[image_link_setting] != blank -%}
+                  <a href="{{ mega_menu_block.settings[image_link_setting] }}" class="mobile-nav__image-push">
+                    {{- image_push -}}
+                  </a>
+                {%- else -%}
+                  <div class="mobile-nav__image-push">
+                    {{- image_push -}}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endcapture -%}
+        {%- endif -%}
+
+        <li class="mobile-nav__item" data-level="1">
+          {%- if link.links.size > 0 or mega_menu_images != blank -%}
+            <button is="toggle-button" class="mobile-nav__link heading {% if settings.heading_text_transform == 'uppercase' %}h6{% else %}h5{% endif %}" aria-controls="mobile-menu-{{ forloop.index }}" aria-expanded="false">
+              {{- link.title -}}
+              <span class="animated-plus"></span>
+            </button>
+
+            <collapsible-content id="mobile-menu-{{ forloop.index }}" class="collapsible">
+              {%- if link.links.size > 0 -%}
+                <ul class="mobile-nav list--unstyled" role="list">
+                  {%- for sub_link in link.links -%}
+                    <li class="mobile-nav__item" data-level="2">
+                      {%- if sub_link.links.size > 0 -%}
+                        <button is="toggle-button" class="mobile-nav__link" aria-controls="mobile-menu-{{ forloop.parentloop.index }}-{{ forloop.index }}" aria-expanded="false">
+                          {{- sub_link.title -}}
+                          <span class="animated-plus"></span>
+                        </button>
+
+                        <collapsible-content id="mobile-menu-{{ forloop.parentloop.index }}-{{ forloop.index }}" class="collapsible">
+                          <ul class="mobile-nav list--unstyled" role="list">
+                            {%- for sub_sub_link in sub_link.links -%}
+                              <li class="mobile-nav__item" data-level="3">
+                                <a href="{{ sub_sub_link.url }}" class="mobile-nav__link">{{ sub_sub_link.title }}</a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </collapsible-content>
+                      {%- else -%}
+                        <a href="{{ sub_link.url }}" class="mobile-nav__link">{{ sub_link.title }}</a>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+
+              {%- if mega_menu_images != blank -%}
+                <div class="mobile-nav__images-wrapper {% if images_count >= 3 %}mobile-nav__images-wrapper--tight{% endif %} hide-scrollbar">
+                  <div class="mobile-nav__images-scroller">
+                    {{- mega_menu_images -}}
+                  </div>
+                </div>
+              {%- endif -%}
+            </collapsible-content>
+          {%- else -%}
+            <a href="{{ link.url }}" class="mobile-nav__link heading {% if settings.heading_text_transform == 'uppercase' %}h6{% else %}h5{% endif %}">{{ link.title }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  {%- if section.settings.show_locale_selector and shop.published_locales.size > 1 -%}
+    {%- assign locale_selector = true -%}
+  {%- endif -%}
+
+  {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
+    {%- assign country_selector = true -%}
+  {%- endif -%}
+
+  {%- if shop.customer_accounts_enabled or locale_selector or country_selector -%}
+    <div class="drawer__footer drawer__footer--tight drawer__footer--bordered">
+      <div class="mobile-nav__footer">
         {%- if shop.customer_accounts_enabled -%}
-          <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="text-with-icon smallcaps sm:hidden">
-            {%- render 'icon' with 'account', width: 20 -%}
-            
-            {%- if customer -%}
-              {{- 'header.general.account' | t -}}
-            {%- else -%}
-              {{- 'header.general.login' | t -}}
-            {%- endif -%}
+          <a class="icon-text" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">
+            {%- render 'icon' with 'header-customer' -%}
+            {{- 'header.general.account' | t -}}
           </a>
         {%- endif -%}
 
-        {%- if show_country_selector or show_locale_selector -%}
-          <div class="localization-selectors">
-            {%- if show_country_selector -%}
-              {%- render 'localization-selector', type: 'country', placement: 'top-start', show_country_name: section.settings.show_country_name, show_country_flag: section.settings.show_country_flag, id_prefix: 'header-sidebar' -%}
+        {%- if locale_selector or country_selector -%}
+          {%- form 'localization', id: 'header-sidebar-localization-form', class: 'header__cross-border' -%}
+            {%- if country_selector -%}
+              <div class="popover-container">
+                <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+                <span class="visually-hidden">{{ 'header.general.country' | t }}</span>
+
+                <button type="button" is="toggle-button" class="popover-button text--xsmall tap-area" aria-expanded="false" aria-controls="header-sidebar-localization-form-currency">
+                  {{- localization.country.name }} ({{ localization.country.currency.iso_code }} {% if localization.country.currency.symbol %}{{ localization.country.currency.symbol }}{%- endif -%})
+                  {%- render 'icon' with 'chevron', width: 9, height: 6, inline: true -%}
+                </button>
+
+                <popover-content id="header-sidebar-localization-form-currency" class="popover popover--top popover--small">
+                  <span class="popover__overlay"></span>
+
+                  <header class="popover__header">
+                    <span class="popover__title heading h6">{{- 'header.general.country' | t -}}</span>
+
+                    <button type="button" class="popover__close-button tap-area tap-area--large" data-action="close" title="{{ 'general.accessibility.close' | t | escape }}">
+                      {%- render 'icon' with 'close' -%}
+                    </button>
+                  </header>
+
+                  <div class="popover__content">
+                    <div class="popover__choice-list">
+                      {%- for country in localization.available_countries -%}
+                        <button type="submit" name="country_code" value="{{ country.iso_code }}" class="popover__choice-item">
+                          <span class="popover__choice-label" {% if country.iso_code == localization.country.iso_code %}aria-current="true"{% endif %}>
+                            {{- country.name }} ({{ country.currency.iso_code }} {% if localization.country.currency.symbol %}{{ localization.country.currency.symbol }}{%- endif -%})
+                          </span>
+                        </button>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </popover-content>
+              </div>
             {%- endif -%}
 
-            {%- if show_country_selector and show_locale_selector -%}
-              <span class="localization-selectors__separator" aria-hidden="true"></span>
-            {%- endif -%}
+            {%- if locale_selector -%}
+              <div class="popover-container">
+                <input type="hidden" name="locale_code" value="{{ form.current_locale.iso_code }}">
+                <span class="visually-hidden">{{ 'header.general.language' | t }}</span>
 
-            {%- if show_locale_selector -%}
-              {%- render 'localization-selector', type: 'locale', placement: 'top-start', id_prefix: 'header-sidebar' -%}
+                <button type="button" is="toggle-button" class="popover-button text--xsmall tap-area" aria-expanded="false" aria-controls="header-sidebar-localization-form-locale">
+                  {{- form.current_locale.endonym_name | capitalize -}}
+                  {%- render 'icon' with 'chevron', width: 9, height: 6, inline: true -%}
+                </button>
+
+                <popover-content id="header-sidebar-localization-form-locale" class="popover popover--top popover--small">
+                  <span class="popover__overlay"></span>
+
+                  <header class="popover__header">
+                    <span class="popover__title heading h6">{{- 'header.general.language' | t -}}</span>
+
+                    <button type="button" class="popover__close-button tap-area tap-area--large" data-action="close" title="{{ 'general.accessibility.close' | t | escape }}">
+                      {%- render 'icon' with 'close' -%}
+                    </button>
+                  </header>
+
+                  <div class="popover__content">
+                    <div class="popover__choice-list">
+                      {%- for locale in form.available_locales -%}
+                        <button type="submit" name="locale_code" value="{{ locale.iso_code }}" class="popover__choice-item">
+                          <span class="popover__choice-label" {% if locale.iso_code == form.current_locale.iso_code %}aria-current="true"{% endif %}>
+                            {{- locale.endonym_name | capitalize -}}
+                          </span>
+                        </button>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </popover-content>
+              </div>
             {%- endif -%}
-          </div>
+          {%- endform -%}
         {%- endif -%}
       </div>
-    {%- endif -%}
-  </div>
-
-  {%- comment -%}Panel 2 holds all the second levels{%- endcomment -%}
-  {%- if menu.levels > 0 -%}
-    <header-sidebar-collapsible-panel class="header-sidebar__collapsible-panel" slot="collapsible-panel">
-      <div class="header-sidebar__scroller">
-        {%- for link in menu.links -%}
-          {%- if link.links.size > 0 -%}
-            <div id="header-panel-{{ forloop.index }}" class="header-sidebar__sub-panel" hidden>
-              <button type="button" class="header-sidebar__back-button link-faded {% if show_dividers %}is-divided{% endif %} text-with-icon {% if section.settings.sidebar_text_font == 'heading' %}h6{% endif %} md:hidden" data-action="close-panel">
-                {%- render 'icon' with 'chevron-left', width: 12, direction_aware: true -%}
-                {{- link.title -}}
-              </button>
-
-              <ul class="header-sidebar__linklist {% if show_dividers %}divide-y{% endif %} unstyled-list" role="list">
-                {%- for sub_link in link.links -%}
-                  <li>
-                    {%- if sub_link.links.size > 0 -%}
-                      <accordion-disclosure>
-                        <details class="accordion__disclosure group" {% if open_second_level_menus %}open{% endif %}>
-                          <summary class="header-sidebar__linklist-button {% if section.settings.sidebar_text_font == 'heading' %}h6{% endif %}">
-                            {{- sub_link.title -}}
-                            <span class="animated-plus group-expanded:rotate" aria-hidden="true"></span>
-                          </summary>
-
-                          <div class="header-sidebar__nested-linklist">
-                            {%- for sub_sub_link in sub_link.links -%}
-                              <a href="{{ sub_sub_link.url }}" class="link-faded-reverse">{{ sub_sub_link.title }}</a>
-                            {%- endfor -%}
-                          </div>
-                        </details>
-                      </accordion-disclosure>
-                    {%- else -%}
-                      <a href="{{ sub_link.url }}" class="header-sidebar__linklist-button {% if section.settings.sidebar_text_font == 'heading' %}h6{% endif %}">
-                        {{- sub_link.title -}}
-                      </a>
-                    {%- endif -%}
-                  </li>
-                {%- endfor -%}
-              </ul>
-
-              {%- liquid
-                assign link_title_downcase = link.title | strip | downcase
-                assign mega_menu_block = ''
-
-                for block in section.blocks
-                  assign menu_item_downcase = block.settings.menu_item | strip | downcase
-
-                  if menu_item_downcase == link_title_downcase
-                    assign mega_menu_block = block
-                    break
-                  endif
-
-                endfor
-              -%}
-
-              {%- capture mega_menu_content -%}
-                {%- render 'mega-menu-images', context: 'sidebar', block: mega_menu_block -%}
-              {%- endcapture -%}
-
-              {%- if mega_menu_content != blank -%}
-                <div class="header-sidebar__promo scroll-area bleed md:unbleed">
-                  {{- mega_menu_content -}}
-                </div>
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-    </header-sidebar-collapsible-panel>
+    </div>
   {%- endif -%}
-</header-sidebar>
+</mobile-navigation>

@@ -21,7 +21,7 @@ Supported variables
 
 {%- case icon -%}
   {%- comment -%} UI {%- endcomment -%}
-  {%- when 'chevron-down' -%}
+  {%- when 'chevron-down', 'chevron' -%}
     <svg aria-hidden="true" focusable="false" fill="none" width="{{ width | default: 10 }}" class="{{ class | strip }}" viewBox="0 0 10 10">
       <path d="m1 3 4 4 4-4" stroke="currentColor" stroke-linecap="square"/>
     </svg>
@@ -149,7 +149,7 @@ Supported variables
       <path d="M1 19h22M1 12h22M1 5h22" stroke="currentColor" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" stroke-linecap="square"/>
     </svg>
 
-  {%- when 'account' -%}
+  {%- when 'account', 'header-customer' -%}
     <svg aria-hidden="true" fill="none" focusable="false" width="{{ width | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
       <path d="M16.125 8.75c-.184 2.478-2.063 4.5-4.125 4.5s-3.944-2.021-4.125-4.5c-.187-2.578 1.64-4.5 4.125-4.5 2.484 0 4.313 1.969 4.125 4.5Z" stroke="currentColor" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M3.017 20.747C3.783 16.5 7.922 14.25 12 14.25s8.217 2.25 8.984 6.497" stroke="currentColor" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" stroke-miterlimit="10"/>
