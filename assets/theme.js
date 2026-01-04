@@ -5874,46 +5874,36 @@ export {
 
 /** --- Focal Mobile Menu Support (Added) --- **/
 
-class ToggleButton extends HTMLButtonElement {
-  constructor() {
-    super();
-  }
+// Global handler for toggle-button functionality to ensure compatibility
+document.addEventListener('click', (event) => {
+  const toggleButton = event.target.closest('[is="toggle-button"]');
+  if (!toggleButton) return;
 
-  connectedCallback() {
-    this.addEventListener('click', this._onClick.bind(this));
-  }
+  const controls = toggleButton.getAttribute('aria-controls');
+  if (!controls) return;
 
-  _onClick(event) {
-    const controls = this.getAttribute('aria-controls');
-    if (!controls) return;
+  const target = document.getElementById(controls);
+  if (!target) return;
 
-    const target = document.getElementById(controls);
-    if (!target) return;
+  const expanded = toggleButton.getAttribute('aria-expanded') === 'true';
+  toggleButton.setAttribute('aria-expanded', !expanded);
 
-    const expanded = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', !expanded);
-
-    if (target.tagName.toLowerCase() === 'collapsible-content') {
-      target.open = !expanded;
+  if (target.tagName.toLowerCase() === 'collapsible-content') {
+    target.open = !expanded;
+  } else {
+    if (target.hasAttribute('open')) {
+      target.removeAttribute('open');
+      if (target.tagName.toLowerCase() === 'mobile-navigation') {
+        document.documentElement.classList.remove('lock-scroll');
+      }
     } else {
-      if (target.hasAttribute('open')) {
-        target.removeAttribute('open');
-        if (target.tagName.toLowerCase() === 'mobile-navigation') {
-          document.documentElement.classList.remove('lock-scroll');
-        }
-      } else {
-        target.setAttribute('open', '');
-        if (target.tagName.toLowerCase() === 'mobile-navigation') {
-          document.documentElement.classList.add('lock-scroll');
-        }
+      target.setAttribute('open', '');
+      if (target.tagName.toLowerCase() === 'mobile-navigation') {
+        document.documentElement.classList.add('lock-scroll');
       }
     }
   }
-}
-
-if (!window.customElements.get('toggle-button')) {
-  window.customElements.define('toggle-button', ToggleButton, { extends: 'button' });
-}
+});
 
 class CollapsibleContent extends HTMLElement {
   constructor() {
