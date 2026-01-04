@@ -8262,10 +8262,15 @@ mobile-navigation.drawer[open] {
   color: inherit;
   font-weight: var(--heading-font-weight);
   text-transform: var(--heading-text-transform);
+  font-size: 0.85rem;
+  /* Reduced from default */
 }
 
 .icon-text svg {
   flex-shrink: 0;
+  width: 18px;
+  /* Slightly smaller icon */
+  height: 18px;
 }
 
 .mobile-nav__image-push {

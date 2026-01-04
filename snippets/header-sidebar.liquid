@@ -132,7 +132,7 @@
         {%- if shop.customer_accounts_enabled -%}
           <a class="icon-text" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">
             {%- render 'icon' with 'header-customer' -%}
-            {{- 'header.general.account' | t -}}
+            {{- 'header.general.login' | t -}}
           </a>
         {%- endif -%}
 
