@@ -8101,7 +8101,7 @@ ul {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 1.2rem 0;
+  padding: 0.85rem 0;
   text-align: start;
   background: none;
   border: none;
@@ -8121,7 +8121,7 @@ ul {
 }
 
 .mobile-nav__item[data-level="2"] .mobile-nav__link {
-  padding: 0.8rem 0;
+  padding: 0.65rem 0;
   font-size: 0.95em;
 }
 
@@ -8130,7 +8130,7 @@ ul {
 }
 
 .mobile-nav__item[data-level="3"] .mobile-nav__link {
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
   font-size: 0.9em;
   opacity: 0.8;
 }
