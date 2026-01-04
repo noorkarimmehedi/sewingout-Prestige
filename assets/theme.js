@@ -5955,11 +5955,27 @@ class MobileNavigation extends HTMLElement {
   }
 
   connectedCallback() {
+    if (this.hasAttribute('append-body') && this.parentNode !== document.body) {
+      document.body.appendChild(this);
+    }
+
     this.addEventListener('click', (event) => {
       if (event.target.matches('[data-action="close"]') || event.target.closest('[data-action="close"]') || event.target.matches('.drawer__overlay')) {
         this.close();
       }
     });
+
+    // Handle escape key
+    this._onKeyDown = (event) => {
+      if (event.key === 'Escape' && this.hasAttribute('open')) {
+        this.close();
+      }
+    };
+    document.addEventListener('keydown', this._onKeyDown);
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('keydown', this._onKeyDown);
   }
 
   open() {
