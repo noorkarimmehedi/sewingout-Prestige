@@ -8182,9 +8182,12 @@ mobile-navigation.drawer {
   top: 0;
   bottom: 0;
   z-index: 1001;
-  /* Slightly higher than default drawers if needed */
   transition: transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1), visibility 0.5s;
-  background: white;
+  background-color: #fff;
+  /* Fallback */
+  background-color: rgb(var(--background-without-opacity));
+  background-image: var(--background-gradient);
+  color: rgb(var(--text-color));
   width: 100%;
   max-width: 400px;
   overflow: hidden;
@@ -8201,7 +8204,7 @@ mobile-navigation.drawer[open] {
   visibility: visible;
 }
 
-.drawer__overlay {
+.mobile-menu-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
@@ -8209,12 +8212,10 @@ mobile-navigation.drawer[open] {
   visibility: hidden;
   transition: opacity 0.5s, visibility 0.5s;
   z-index: 1000;
-  /* Below the drawer but above page content */
   pointer-events: none;
 }
 
-mobile-navigation[open]+.drawer__overlay,
-mobile-navigation[open] .drawer__overlay {
+.mobile-menu-overlay[open] {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -8244,7 +8245,7 @@ mobile-navigation[open] .drawer__overlay {
   border-top: 1px solid rgb(var(--border-color) / 0.1);
   padding: 1.5rem;
   flex-shrink: 0;
-  background: white;
+  background: rgb(var(--background));
 }
 
 .mobile-nav__footer {

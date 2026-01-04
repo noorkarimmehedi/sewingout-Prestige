@@ -5959,10 +5959,22 @@ class MobileNavigation extends HTMLElement {
       document.body.appendChild(this);
     }
 
+    // Create overlay if it doesn't exist
+    this._overlay = document.querySelector('.mobile-menu-overlay');
+    if (!this._overlay) {
+      this._overlay = document.createElement('div');
+      this._overlay.className = 'mobile-menu-overlay';
+      document.body.appendChild(this._overlay);
+    }
+
     this.addEventListener('click', (event) => {
-      if (event.target.matches('[data-action="close"]') || event.target.closest('[data-action="close"]') || event.target.matches('.drawer__overlay')) {
+      if (event.target.matches('[data-action="close"]') || event.target.closest('[data-action="close"]')) {
         this.close();
       }
+    });
+
+    this._overlay.addEventListener('click', () => {
+      this.close();
     });
 
     // Handle escape key
@@ -5980,11 +5992,13 @@ class MobileNavigation extends HTMLElement {
 
   open() {
     this.setAttribute('open', '');
+    this._overlay.setAttribute('open', '');
     document.documentElement.classList.add('lock-scroll');
   }
 
   close() {
     this.removeAttribute('open');
+    this._overlay.removeAttribute('open');
     document.documentElement.classList.remove('lock-scroll');
 
     // Close all nested collapsibles
