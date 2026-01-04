@@ -8184,7 +8184,7 @@ mobile-navigation.drawer {
   z-index: 1001;
   /* Slightly higher than default drawers if needed */
   transition: transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1), visibility 0.5s;
-  background: rgb(var(--background));
+  background: white;
   width: 100%;
   max-width: 400px;
   overflow: hidden;
@@ -8244,7 +8244,7 @@ mobile-navigation[open] .drawer__overlay {
   border-top: 1px solid rgb(var(--border-color) / 0.1);
   padding: 1.5rem;
   flex-shrink: 0;
-  background: rgb(var(--background));
+  background: white;
 }
 
 .mobile-nav__footer {
