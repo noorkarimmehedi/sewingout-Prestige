@@ -15,12 +15,12 @@
       "type": "countdown-condensed",
       "settings": {
         "color_scheme": "schema-3",
-        "content": "Up to 40% off",
+        "content": "Super Sale Up to 40% off",
         "link_text": "shop now",
         "link_url": "shopify://collections/all",
         "expiration_date": "2026-02-25",
         "expiration_behavior": "leave",
-        "desktop_justification": "space-between"
+        "desktop_justification": "center"
       }
     },
     "header": {
