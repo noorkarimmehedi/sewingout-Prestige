@@ -78,15 +78,8 @@ therefore using a different structure for the Shadow DOM template
       endif
     -%}
 
-    {%- if shop.customer_accounts_enabled or show_country_selector or show_locale_selector or settings.social_facebook != blank or settings.social_instagram != blank -%}
+    {%- if shop.customer_accounts_enabled or show_country_selector or show_locale_selector -%}
       <div class="header-sidebar__footer">
-        {%- if settings.social_facebook != blank or settings.social_instagram != blank or settings.social_twitter != blank or settings.social_pinterest != blank or settings.social_youtube != blank or settings.social_tiktok != blank -%}
-          <div class="header-sidebar__social-section">
-            <p class="header-sidebar__social-title h6">{{ 'general.social.follow_on' | t: social_media: '' | remove: 'Follow on' | strip }}</p>
-            {%- render 'social-media', layout: 'list' -%}
-          </div>
-        {%- endif -%}
-
         {%- if shop.customer_accounts_enabled -%}
           <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="text-with-icon smallcaps sm:hidden">
             {%- render 'icon' with 'account', width: 20 -%}
