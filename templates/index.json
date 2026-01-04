@@ -85,7 +85,7 @@
         "collection-1": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "all-products",
             "products_count": 8,
             "title": "Women",
             "link_url": "shopify://collections/all",
