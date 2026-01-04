@@ -8188,8 +8188,7 @@ mobile-navigation.drawer {
   background-color: rgb(var(--background-without-opacity));
   background-image: var(--background-gradient);
   color: rgb(var(--text-color));
-  width: calc(100% - 60px);
-  /* Leave 60px gap on the side */
+  width: 100%;
   max-width: 400px;
   overflow: hidden;
 }
@@ -8225,7 +8224,7 @@ mobile-navigation.drawer[open] {
 .drawer__header--shadowed {
   padding: 1rem 1.5rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   border-bottom: 1px solid rgb(var(--border-color) / 0.1);
   flex-shrink: 0;
 }
