@@ -8188,7 +8188,8 @@ mobile-navigation.drawer {
   background-color: rgb(var(--background-without-opacity));
   background-image: var(--background-gradient);
   color: rgb(var(--text-color));
-  width: 100%;
+  width: calc(100% - 60px);
+  /* Leave 60px gap on the side */
   max-width: 400px;
   overflow: hidden;
 }
