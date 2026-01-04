@@ -7959,3 +7959,87 @@ ul {
   display: -webkit-box;
   overflow: hidden;
 }
+
+/* --- LUXURY MOBILE MENU REDESIGN --- */
+.header-sidebar {
+  --header-sidebar-padding-inline: 2.5rem;
+}
+
+.header-sidebar__linklist-button {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: calc(var(--heading-h6-font-size) * 0.9);
+  padding-block: 1.25rem;
+  transition: opacity 0.3s ease;
+  font-weight: 500;
+}
+
+.header-sidebar__linklist-button:active {
+  opacity: 0.6;
+}
+
+.header-sidebar .divide-y > * + * {
+  border-top-width: 0.5px;
+  border-color: rgba(var(--text-color), 0.08);
+}
+
+.header-sidebar__social-section {
+  margin-bottom: 2.5rem;
+}
+
+.header-sidebar__social-title {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  opacity: 0.5;
+  margin-bottom: 1rem;
+}
+
+.header-sidebar__social-section .social-media {
+  gap: 1.5rem;
+}
+
+.header-sidebar__social-section .social-media__item {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.header-sidebar__footer {
+  padding: 2.5rem var(--header-sidebar-padding-inline);
+  border-top: 1px solid rgba(var(--text-color), 0.05);
+}
+
+.header-sidebar__scroller {
+  padding-inline: var(--header-sidebar-padding-inline);
+}
+
+.header-sidebar__back-button {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Subtle entrance animation for links */
+.header-sidebar[open] .header-sidebar__linklist-button {
+  animation: luxuryLinkFadeIn 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+}
+
+@keyframes luxuryLinkFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered animation for list items */
+.header-sidebar__linklist li:nth-child(1) .header-sidebar__linklist-button { animation-delay: 0.1s; }
+.header-sidebar__linklist li:nth-child(2) .header-sidebar__linklist-button { animation-delay: 0.15s; }
+.header-sidebar__linklist li:nth-child(3) .header-sidebar__linklist-button { animation-delay: 0.2s; }
+.header-sidebar__linklist li:nth-child(4) .header-sidebar__linklist-button { animation-delay: 0.25s; }
+.header-sidebar__linklist li:nth-child(5) .header-sidebar__linklist-button { animation-delay: 0.3s; }
+.header-sidebar__linklist li:nth-child(6) .header-sidebar__linklist-button { animation-delay: 0.35s; }
