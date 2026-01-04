@@ -34,7 +34,7 @@
         "logo": "shopify://shop_images/Name_With_logo_1.png",
         "logo_max_width": 130,
         "logo_mobile_max_width": 80,
-        "menu": "customer-account-main-menu",
+        "menu": "menu",
         "sidebar_menu": "menu",
         "menu_open_trigger": "hover",
         "menu_text_font": "heading",
