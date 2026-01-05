@@ -73,8 +73,26 @@
     "footer": {
       "type": "footer",
       "blocks": {
+        "text_VybJmd": {
+          "type": "text",
+          "settings": {
+            "title": "Contact",
+            "content": "<p><strong>House – 8/18, Road – 01, Block – D, Section – 15, Kafrul, Mirpur- 14, Dhaka - 1216</strong></p>",
+            "enable_follow_on_shop": true
+          }
+        },
+        "text_XNJ8kf": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "title": "<strong>Hotline Free 24/7</strong>",
+            "content": "<p><strong>+8801623722937</strong></p>",
+            "enable_follow_on_shop": true
+          }
+        },
         "newsletter": {
           "type": "newsletter",
+          "disabled": true,
           "settings": {
             "title": "Newsletter",
             "content": "<p>Sign up to our newsletter to receive exclusive offers.</p>",
@@ -100,6 +118,8 @@
         }
       },
       "block_order": [
+        "text_VybJmd",
+        "text_XNJ8kf",
         "newsletter",
         "links",
         "text"
