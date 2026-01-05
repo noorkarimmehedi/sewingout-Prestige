@@ -164,9 +164,9 @@
           </div>
         {%- endif -%}
 
-        <p class="heading text-subdued text-xxs">© {{ 'now' | date: '%Y' }} - {{ shop.name }}</p>
+        <p class="heading text-subdued text-xxs" style="text-align: left;">© {{ 'now' | date: '%Y' }} - {{ shop.name }}</p>
         
-        <p class="heading text-subdued text-xxs">Website designed and developed by <a href="https://api.whatsapp.com/send/?phone=8801733670129" target="_blank" rel="noopener" class="link-faded" style="text-decoration: underline; font-weight: bold;">Arc Lab Technology</a></p>
+        <p class="heading text-subdued" style="font-size: 10px; text-align: left;">Website designed and developed by <a href="https://api.whatsapp.com/send/?phone=8801733670129" target="_blank" rel="noopener" class="link-faded" style="text-decoration: underline; font-weight: bold;">Arc Lab Technology</a></p>
 
         {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
           <ul class="payment-methods unstyled-list">
